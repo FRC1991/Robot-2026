@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.Utils;
 
 public class S_CPivot extends SubsystemBase {
   private TalonFX motor;
@@ -27,7 +28,7 @@ public class S_CPivot extends SubsystemBase {
   }
 
   public void set(double speed) {
-    motor.set(speed); // TODO: Normalize this
+    motor.set(Utils.normalize(speed));
   }
 
   @Override

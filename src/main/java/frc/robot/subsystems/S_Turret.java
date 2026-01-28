@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.Utils;
 
 public class S_Turret extends SubsystemBase {
   private SparkMax motor;
@@ -28,7 +29,7 @@ public class S_Turret extends SubsystemBase {
   }
 
   public void set(double speed) {
-    motor.set(speed); // TODO: Normalize this
+    motor.set(Utils.normalize(speed));
   }
 
   @Override

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.utils.Utils;
 
 public class S_Climber extends SubsystemBase {
   private TalonFX motor1;
@@ -29,8 +30,8 @@ public class S_Climber extends SubsystemBase {
   }
 
   public void set(double speed) {
-    motor1.set(speed); // TODO: Normalize this
-    motor2.set(speed);
+    motor1.set(Utils.normalize(speed));
+    motor2.set(Utils.normalize(speed));
   }
 
   @Override
