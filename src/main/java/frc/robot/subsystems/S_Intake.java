@@ -8,9 +8,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
-public class S_Intake extends SubsystemBase {
+public class S_Intake extends SubsystemBase implements CheckableSubsystem {
+  private boolean initialized = false, status = false;
+  
   private SparkMax motor;
   
   private static S_Intake m_Instance;
@@ -18,6 +21,8 @@ public class S_Intake extends SubsystemBase {
   /** Creates a new S_Intake. */
   private S_Intake() {
     motor = new SparkMax(99997, MotorType.kBrushless);
+
+    initialized = true;
   }
 
   public static S_Intake getInstance() {
@@ -33,7 +38,19 @@ public class S_Intake extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void stop() {
+    motor.stopMotor();
+  }
+
+  @Override
+  public boolean getInitialized() {
+    return initialized;
+  }
+
+  @Override
+  public boolean checkSubsystem() {
+    status = getInitialized();
+
+    return status;
   }
 }

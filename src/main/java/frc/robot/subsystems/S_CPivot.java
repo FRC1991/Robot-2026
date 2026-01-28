@@ -7,9 +7,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
-public class S_CPivot extends SubsystemBase {
+public class S_CPivot extends SubsystemBase implements CheckableSubsystem {
+  private boolean initialized = false, status = false;
+  
   private TalonFX motor;
   
   private static S_CPivot m_Instance;
@@ -17,6 +20,8 @@ public class S_CPivot extends SubsystemBase {
   /** Creates a new S_CPivot. */
   private S_CPivot() {
     motor = new TalonFX(99995);
+
+    initialized = true;
   }
 
   public static S_CPivot getInstance() {
@@ -32,7 +37,19 @@ public class S_CPivot extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void stop() {
+    motor.stopMotor();
+  }
+
+  @Override
+  public boolean getInitialized() {
+    return initialized;
+  }
+
+  @Override
+  public boolean checkSubsystem() {
+    status = getInitialized();
+
+    return status;
   }
 }

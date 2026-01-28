@@ -7,9 +7,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
-public class S_Climber extends SubsystemBase {
+public class S_Climber extends SubsystemBase implements CheckableSubsystem {
+  private boolean initialized = false, status = false;
+  
   private TalonFX motor1;
   private TalonFX motor2;
   
@@ -19,6 +22,8 @@ public class S_Climber extends SubsystemBase {
   private S_Climber() {
     motor1 = new TalonFX(99999);
     motor2 = new TalonFX(99998);
+
+    initialized = true;
   }
 
   public static S_Climber getInstance() {
@@ -35,7 +40,20 @@ public class S_Climber extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void stop() {
+    motor1.stopMotor();
+    motor2.stopMotor();
+  }
+
+  @Override
+  public boolean getInitialized() {
+    return initialized;
+  }
+
+  @Override
+  public boolean checkSubsystem() {
+    status = getInitialized();
+
+    return status;
   }
 }
