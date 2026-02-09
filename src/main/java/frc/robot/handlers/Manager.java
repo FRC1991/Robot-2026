@@ -7,6 +7,12 @@ package frc.robot.handlers;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.handlers.CPivot.CPivotStates;
+import frc.robot.handlers.Climber.ClimberStates;
+import frc.robot.handlers.IPivot.IPivotStates;
+import frc.robot.handlers.Intake.IntakeStates;
+import frc.robot.handlers.Shooter.ShooterStates;
+import frc.robot.handlers.Turret.TurretStates;
 import frc.robot.subsystems.S_CPivot;
 import frc.robot.subsystems.S_Climber;
 import frc.robot.subsystems.S_IPivot;
@@ -85,7 +91,82 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   public void handleStateTransition() {
     switch(desiredState) {
       case IDLE:
-        stop();
+        Climber.getInstance().setDesiredState(ClimberStates.IDLE);
+        CPivot.getInstance().setDesiredState(CPivotStates.IDLE);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        IPivot.getInstance().setDesiredState(IPivotStates.IDLE);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Turret.getInstance().setDesiredState(TurretStates.IDLE);
+
+        break;
+
+      case DRIVE:
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        CPivot.getInstance().setDesiredState(CPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Turret.getInstance().setDesiredState(TurretStates.IDLE);
+
+        break;
+
+      case SHOOTING:
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        CPivot.getInstance().setDesiredState(CPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING);
+        Turret.getInstance().setDesiredState(TurretStates.SHOOTING);
+
+        break;
+
+      case PASSING:
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        CPivot.getInstance().setDesiredState(CPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING); // Subject to change
+        Turret.getInstance().setDesiredState(TurretStates.PASSING);
+
+        break;
+
+      case INTAKING:
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        CPivot.getInstance().setDesiredState(CPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
+        IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Turret.getInstance().setDesiredState(TurretStates.IDLE);
+
+        break;
+
+      case OUTTAKING:
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        CPivot.getInstance().setDesiredState(CPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
+        IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Turret.getInstance().setDesiredState(TurretStates.IDLE);
+
+        break;
+
+      case CLIMBING:
+        Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
+        CPivot.getInstance().setDesiredState(CPivotStates.CLIMBING);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Turret.getInstance().setDesiredState(TurretStates.IDLE);
+
+        break;
+
+      case LOWERING:
+        Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
+        CPivot.getInstance().setDesiredState(CPivotStates.RETURNING);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Turret.getInstance().setDesiredState(TurretStates.IDLE);
 
         break;
       
@@ -101,7 +182,18 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   public void update() {
     switch(currentState) {
       case IDLE:
+        setDesiredState(ManagerStates.DRIVE);
 
+        break;
+
+      case DRIVE:
+      case SHOOTING:
+      case PASSING:
+      case INTAKING:
+      case OUTTAKING:
+      case CLIMBING:
+      case LOWERING:
+      
         break;
 
       default:
@@ -126,6 +218,13 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   }
 
   public enum ManagerStates implements State {
-    IDLE;
+    IDLE,
+    DRIVE,
+    SHOOTING,
+    PASSING,
+    INTAKING,
+    OUTTAKING,
+    CLIMBING,
+    LOWERING;
   }
 }

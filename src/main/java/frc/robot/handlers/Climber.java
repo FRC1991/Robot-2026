@@ -41,6 +41,7 @@ public class Climber extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case HOME:
       case CLIMBING:
       case RETURNING:
 
@@ -59,6 +60,7 @@ public class Climber extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
+      case HOME:
       case CLIMBING:
       case RETURNING:
 
@@ -86,6 +88,7 @@ public class Climber extends SubsystemBase implements StateSubsystem {
   public enum ClimberStates implements State {
     IDLE,
     BROKEN,
+    HOME,
     CLIMBING,
     RETURNING;
   }

@@ -42,6 +42,7 @@ public class Intake extends SubsystemBase implements StateSubsystem {
         break;
 
       case INTAKING:
+      case OUTTAKING:
 
         break;
 
@@ -59,6 +60,7 @@ public class Intake extends SubsystemBase implements StateSubsystem {
       case IDLE:
       case BROKEN:
       case INTAKING:
+      case OUTTAKING:
 
         break;
 
@@ -84,6 +86,7 @@ public class Intake extends SubsystemBase implements StateSubsystem {
   public enum IntakeStates implements State {
     IDLE,
     BROKEN,
-    INTAKING;
+    INTAKING,
+    OUTTAKING;
   }
 }

@@ -43,6 +43,7 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
 
       case HOME:
       case CLIMBING:
+      case RETURNING:
 
         break;
 
@@ -61,6 +62,7 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
       case BROKEN:
       case HOME:
       case CLIMBING:
+      case RETURNING:
 
         break;
 
@@ -87,6 +89,7 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
     IDLE,
     BROKEN,
     HOME,
-    CLIMBING;
+    CLIMBING,
+    RETURNING;
   }
 }
