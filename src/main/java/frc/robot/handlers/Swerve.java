@@ -5,19 +5,28 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.S_Swerve;
+import frc.utils.LimelightHelpers;
+import frc.utils.Utils;
 
 public class Swerve extends SubsystemBase implements StateSubsystem {
   private SwerveStates desiredState, currentState = SwerveStates.IDLE;
   private S_Swerve swerve = S_Swerve.getInstance();
   private static Swerve m_Instance;
+
+  private PIDController rotController = new PIDController(0.03, 0.003, 0);
   
   /** Creates a new Swerve. */
-  private Swerve() {}
+  private Swerve() {
+    rotController.setTolerance(1);
+    rotController.setSetpoint(0);
+  }
 
   public static Swerve getInstance() {
     if(m_Instance == null) {
@@ -45,6 +54,7 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
         break;
 
       case DRIVING:
+      case AIMING:
 
         break;
 
@@ -80,6 +90,27 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case AIMING:
+        if(LimelightHelpers.getTV(Constants.LIMELIGHT_NAME)) {
+          double rotOffset = LimelightHelpers.getTX(Constants.LIMELIGHT_NAME);
+
+          swerve.drive(
+            -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+            -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+            Utils.normalize(rotController.calculate(rotOffset)),
+            true, SwerveConstants.SPEED_SCALE
+          );
+        } else {
+          swerve.drive(
+            -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+            -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+            -MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
+            true, SwerveConstants.SPEED_SCALE
+          );
+        }
+        
+        break;
+
       default:
 
         break;
@@ -94,6 +125,8 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
   public enum SwerveStates implements State {
     IDLE,
     BROKEN,
-    DRIVING;
+    DRIVING,
+    AIMING,
+    LOCKED;
   }
 }

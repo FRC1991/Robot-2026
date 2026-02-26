@@ -17,6 +17,8 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final String LIMELIGHT_NAME = "limelight";
+
   public static abstract class OIConstants {
     public static final int kDriverControllerPort = 0;
   }
