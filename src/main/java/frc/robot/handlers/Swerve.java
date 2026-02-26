@@ -80,12 +80,7 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
 
       case DRIVING:
         if(DriverStation.isTeleopEnabled()) {
-          swerve.drive(
-            -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
-            -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
-            -MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
-            true, SwerveConstants.SPEED_SCALE
-          );
+          drive();
         }
 
         break;
@@ -101,12 +96,7 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
             true, SwerveConstants.SPEED_SCALE
           );
         } else {
-          swerve.drive(
-            -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
-            -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
-            -MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
-            true, SwerveConstants.SPEED_SCALE
-          );
+          drive();
         }
         
         break;
@@ -117,9 +107,18 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
     }
   }
 
+  private void drive() {
+    swerve.drive(
+      -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+      -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+      -MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
+      true, SwerveConstants.SPEED_SCALE
+    );
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    update();
   }
 
   public enum SwerveStates implements State {
