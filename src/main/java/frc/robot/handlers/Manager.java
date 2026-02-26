@@ -100,7 +100,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
         break;
 
-      case DRIVE:
+      case DRIVING:
         Climber.getInstance().setDesiredState(ClimberStates.HOME);
         CPivot.getInstance().setDesiredState(CPivotStates.HOME);
         Intake.getInstance().setDesiredState(IntakeStates.IDLE);
@@ -182,11 +182,11 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   public void update() {
     switch(currentState) {
       case IDLE:
-        setDesiredState(ManagerStates.DRIVE);
+        setDesiredState(ManagerStates.DRIVING);
 
         break;
 
-      case DRIVE:
+      case DRIVING:
       case SHOOTING:
       case PASSING:
       case INTAKING:
@@ -213,13 +213,13 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   public Trigger bindState(Trigger button, ManagerStates onTrue, ManagerStates onFalse) {
     return button
-      .onTrue(new InstantCommand(() -> setDesiredState(onTrue), this))
-      .onFalse(new InstantCommand(() -> setDesiredState(onFalse), this));
+      .onTrue(new InstantCommand(() -> setDesiredState(onTrue), m_Instance))
+      .onFalse(new InstantCommand(() -> setDesiredState(onFalse), m_Instance));
   }
 
   public enum ManagerStates implements State {
     IDLE,
-    DRIVE,
+    DRIVING,
     SHOOTING,
     PASSING,
     INTAKING,

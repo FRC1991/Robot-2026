@@ -7,7 +7,9 @@ package frc.robot.handlers;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.OI;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
@@ -58,6 +60,11 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case LOCKED:
+        swerve.setX();
+
+        break;
+
       default:
 
         break;
@@ -101,6 +108,10 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
         
         break;
 
+      case LOCKED:
+
+        break;
+
       default:
 
         break;
@@ -119,6 +130,12 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
   @Override
   public void periodic() {
     update();
+  }
+
+  public Trigger bindState(Trigger button, SwerveStates onTrue, SwerveStates onFalse) {
+    return button
+      .onTrue(new InstantCommand(() -> setDesiredState(onTrue), m_Instance))
+      .onFalse(new InstantCommand(() -> setDesiredState(onFalse), m_Instance));
   }
 
   public enum SwerveStates implements State {

@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.handlers.Manager;
+import frc.robot.handlers.Swerve;
+import frc.robot.handlers.Swerve.SwerveStates;
+import frc.robot.handlers.Manager.ManagerStates;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,7 +34,21 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    Manager.getInstance().bindState(OI.auxController.rightBumper(), ManagerStates.SHOOTING, ManagerStates.DRIVING);
+
+    Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
+
+    Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
+    Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
+
+    Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
+
+    Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
+
+    Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
+
+    Swerve.getInstance().bindState(OI.driverController.x(), SwerveStates.LOCKED, SwerveStates.DRIVING);
   }
 
   /**

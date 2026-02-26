@@ -12,4 +12,5 @@ public class OI {
     private OI() {}
 
     public static final CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+    public static final CommandXboxController auxController = new CommandXboxController(OIConstants.kAuxControllerPort);
 }

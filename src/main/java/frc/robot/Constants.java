@@ -21,6 +21,7 @@ public final class Constants {
 
   public static abstract class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kAuxControllerPort = 1;
   }
 
   public static abstract class SwerveConstants {
