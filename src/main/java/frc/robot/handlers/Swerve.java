@@ -1,0 +1,99 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.handlers;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.S_Swerve;
+
+public class Swerve extends SubsystemBase implements StateSubsystem {
+  private SwerveStates desiredState, currentState = SwerveStates.IDLE;
+  private S_Swerve swerve = S_Swerve.getInstance();
+  private static Swerve m_Instance;
+  
+  /** Creates a new Swerve. */
+  private Swerve() {}
+
+  public static Swerve getInstance() {
+    if(m_Instance == null) {
+      m_Instance = new Swerve();
+    }
+
+    return m_Instance;
+  }
+
+  @Override
+  public void setDesiredState(State state) {
+    if(desiredState != state) {
+      desiredState = (SwerveStates) state;
+      handleStateTransition();
+    }
+  }
+
+  @Override
+  public void handleStateTransition() {
+    switch(desiredState) {
+      case IDLE:
+      case BROKEN:
+        swerve.stop();
+
+        break;
+
+      case DRIVING:
+
+        break;
+
+      default:
+
+        break;
+    }
+
+    currentState = desiredState;
+  }
+
+  @Override
+  public void update() {
+    switch(currentState) {
+      case IDLE:
+        setDesiredState(SwerveStates.DRIVING);
+
+        break;
+      
+      case BROKEN:
+
+        break;
+
+      case DRIVING:
+        if(DriverStation.isTeleopEnabled()) {
+          swerve.drive(
+            -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+            -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+            -MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
+            true, SwerveConstants.SPEED_SCALE
+          );
+        }
+
+        break;
+
+      default:
+
+        break;
+    }
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  public enum SwerveStates implements State {
+    IDLE,
+    BROKEN,
+    DRIVING;
+  }
+}
