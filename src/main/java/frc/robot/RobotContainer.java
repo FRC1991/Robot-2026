@@ -6,11 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.handlers.Manager;
 import frc.robot.handlers.Swerve;
 import frc.robot.handlers.Swerve.SwerveStates;
+import frc.robot.subsystems.S_Swerve;
 import frc.robot.handlers.Manager.ManagerStates;
 
 /**
@@ -49,6 +51,9 @@ public class RobotContainer {
     Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.x(), SwerveStates.LOCKED, SwerveStates.DRIVING);
+
+    OI.driverController.start()
+      .onTrue(new InstantCommand(() -> S_Swerve.getInstance().setHeading(0), Swerve.getInstance()));
   }
 
   /**

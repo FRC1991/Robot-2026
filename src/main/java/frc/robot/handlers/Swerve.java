@@ -99,7 +99,7 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
           swerve.drive(
             -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
             -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
-            Utils.normalize(rotController.calculate(rotOffset)),
+            -Utils.normalize(rotController.calculate(rotOffset)),
             true, SwerveConstants.SPEED_SCALE
           );
         } else {

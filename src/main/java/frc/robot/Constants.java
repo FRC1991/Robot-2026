@@ -24,6 +24,43 @@ public final class Constants {
     public static final int kAuxControllerPort = 1;
   }
 
+  public static abstract class CANConstants {
+    // Driving motor CAN ids
+    public static final int FRONT_LEFT_DRIVING_ID = 2;
+    public static final int FRONT_RIGHT_DRIVING_ID = 3;
+
+    public static final int BACK_RIGHT_DRIVING_ID = 4;
+    public static final int BACK_LEFT_DRIVING_ID = 5;
+
+    // Turning motor CAN ids
+    public static final int FRONT_LEFT_TURNING_ID = 6;
+    public static final int FRONT_RIGHT_TURNING_ID = 7;
+
+    public static final int BACK_RIGHT_TURNING_ID = 8;
+    public static final int BACK_LEFT_TURNING_ID = 9;
+
+    // Encoder channels for each swerve module
+    public static final int FRONT_LEFT_ENCODER_CHANNEL = 0;
+    public static final int FRONT_RIGHT_ENCODER_CHANNEL = 1;
+
+    public static final int BACK_RIGHT_ENCODER_CHANNEL = 2;
+    public static final int BACK_LEFT_ENCODER_CHANNEL = 3;
+
+    // Offsets for each swerve module
+    public static final double FRONT_LEFT_CHASSIS_OFFSET = -(Math.PI / 2) + (Math.PI / 3) - 0.385; // GOOD
+    public static final double FRONT_RIGHT_CHASSIS_OFFSET = Math.PI + (Math.PI / 3) - 0.525; // GOOD
+
+    public static final double BACK_RIGHT_CHASSIS_OFFSET = -(Math.PI + (Math.PI / 3)) - 0.305; // GOOD
+    public static final double BACK_LEFT_CHASSIS_OFFSET = Math.PI - 0.505; // GOOD
+
+    public static final int GYRO_ID = 10;
+  }
+
+  public static abstract class ModuleConstants {
+    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
+    public static final double DRIVING_MOTOR_REDUCTION = 8.14;
+  }
+
   public static abstract class SwerveConstants {
     // Speed modifiers for swerve drive
     public static final double SPEED_SCALE = 0.5;
@@ -34,9 +71,9 @@ public final class Constants {
 
     // Chassis configuration
     // Distance from center of left wheels to center of right wheels
-    public static final double TRACK_WIDTH = Units.inchesToMeters(999); // TODO: OBVIOUSLY CHANGE THIS
+    public static final double TRACK_WIDTH = Units.inchesToMeters(19.25);
     // Distance from center of front wheels to center of back wheels
-    public static final double WHEEL_BASE = Units.inchesToMeters(999); // TODO: AND THIS
+    public static final double WHEEL_BASE = Units.inchesToMeters(24);
 
     // Swerve drive kinematics for the robot
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(

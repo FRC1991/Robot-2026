@@ -20,6 +20,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogEncoder;
+import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
@@ -46,11 +48,12 @@ public class SwerveModule implements CheckableSubsystem {
         azimuth.setTolerance(1);
 
         m_turningEncoder = new AnalogEncoder(encoderChannel);
+        // m_turningEncoder = new AnalogEncoder(encoderChannel, (2 * Math.PI), chassisAngularOffset);
 
         TalonFXConfiguration drivingConfig = new TalonFXConfiguration();
         SparkMaxConfig turningConfig = new SparkMaxConfig();
 
-        double drivingFactor = 0; // TODO: CHANGE THIS!
+        double drivingFactor = ModuleConstants.WHEEL_DIAMETER_METERS * Math.PI / ModuleConstants.DRIVING_MOTOR_REDUCTION;
 
         drivingConfig.TorqueCurrent.PeakForwardTorqueCurrent = 80.0;
         drivingConfig.TorqueCurrent.PeakReverseTorqueCurrent = -80.0;
@@ -92,6 +95,7 @@ public class SwerveModule implements CheckableSubsystem {
 
     public double getEncoderRadians() {
         return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI + m_chassisAngularOffset);
+        // return MathUtil.angleModulus(m_turningEncoder.get());
     }
 
     public SwerveModulePosition getPosition() {
@@ -109,7 +113,7 @@ public class SwerveModule implements CheckableSubsystem {
 
         correctedDesiredState.optimize(new Rotation2d(getEncoderRadians()));
 
-        driveMotor.set(Utils.normalize(correctedDesiredState.speedMetersPerSecond)); // TODO: DIVIDE BY MAX SPEED
+        driveMotor.set(Utils.normalize(correctedDesiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED_METERS_PER_SECOND));
 
         double error = azimuth.calculate(getEncoderDegrees(), correctedDesiredState.angle.getDegrees());
 
@@ -117,7 +121,7 @@ public class SwerveModule implements CheckableSubsystem {
             error = 0;
         }
 
-        turningMotor.set(Utils.normalize(error));
+        turningMotor.set(-Utils.normalize(error));
 
         m_desiredState = correctedDesiredState;
     }

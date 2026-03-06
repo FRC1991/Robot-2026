@@ -15,28 +15,58 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.CheckableSubsystem;
 
 public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
-  // TODO: CHANGE THESE VALUES
-  private final SwerveModule m_frontLeft = new SwerveModule(0, 0, 0, 0);
-  private final SwerveModule m_frontRight = new SwerveModule(0, 0, 0, 0);
-  private final SwerveModule m_backLeft = new SwerveModule(0, 0, 0, 0);
-  private final SwerveModule m_backRight = new SwerveModule(0, 0, 0, 0);
+  private final SwerveModule m_frontLeft = new SwerveModule(
+    CANConstants.FRONT_LEFT_DRIVING_ID,
+    CANConstants.FRONT_LEFT_TURNING_ID,
+    CANConstants.FRONT_LEFT_ENCODER_CHANNEL,
+    CANConstants.FRONT_LEFT_CHASSIS_OFFSET);
+
+  private final SwerveModule m_frontRight = new SwerveModule(
+    CANConstants.FRONT_RIGHT_DRIVING_ID,
+    CANConstants.FRONT_RIGHT_TURNING_ID,
+    CANConstants.FRONT_RIGHT_ENCODER_CHANNEL,
+    CANConstants.FRONT_RIGHT_CHASSIS_OFFSET);
+
+  private final SwerveModule m_backRight = new SwerveModule(
+    CANConstants.BACK_RIGHT_DRIVING_ID,
+    CANConstants.BACK_RIGHT_TURNING_ID,
+    CANConstants.BACK_RIGHT_ENCODER_CHANNEL,
+    CANConstants.BACK_RIGHT_CHASSIS_OFFSET);
+
+  private final SwerveModule m_backLeft = new SwerveModule(
+    CANConstants.BACK_LEFT_DRIVING_ID,
+    CANConstants.BACK_LEFT_TURNING_ID,
+    CANConstants.BACK_LEFT_ENCODER_CHANNEL,
+    CANConstants.BACK_LEFT_CHASSIS_OFFSET);
 
   private boolean initialized = false, status = false;
 
-  public final Pigeon2 m_gyro = new Pigeon2(0); // TODO: CHANGE ID
+  public final Pigeon2 m_gyro = new Pigeon2(CANConstants.GYRO_ID);
 
-  SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(null, null, null, null);
+  SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(
+    SwerveConstants.DRIVE_KINEMATICS,
+    Rotation2d.fromDegrees(getHeading()),
+    new SwerveModulePosition[] {
+      m_frontLeft.getPosition(),
+      m_frontRight.getPosition(),
+      m_backLeft.getPosition(),
+      m_backRight.getPosition()
+    },
+    new Pose2d());
 
   private static S_Swerve m_Instance;
 
   private double desiredHeading;
   
   /** Creates a new S_Swerve. */
-  private S_Swerve() {}
+  private S_Swerve() {
+    setHeading(180);
+  }
 
   public static S_Swerve getInstance() {
     if(m_Instance == null) {
@@ -70,7 +100,7 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     double xSpeedDelivered = xSpeed * SwerveConstants.MAX_SPEED_METERS_PER_SECOND;
     double ySpeedDelivered = ySpeed * SwerveConstants.MAX_SPEED_METERS_PER_SECOND;
-    double rotDelivered = rot * SwerveConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND * SwerveConstants.ROTATION_SPEED_SCALE; // TODO: MULTIPLY BY SPEED SCALE AND MAX ANGULAR SPEED
+    double rotDelivered = rot * SwerveConstants.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND * SwerveConstants.ROTATION_SPEED_SCALE;
 
     rotDelivered = rotDelivered * (SwerveConstants.GYRO_REVERSED ? -1 : 1);
 
