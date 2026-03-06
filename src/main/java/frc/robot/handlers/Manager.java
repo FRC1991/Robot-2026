@@ -7,17 +7,18 @@ package frc.robot.handlers;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.handlers.Claw.ClawStates;
 import frc.robot.handlers.Climber.ClimberStates;
-import frc.robot.handlers.IPivot.IPivotStates;
-import frc.robot.handlers.Intake.IntakeStates;
+// import frc.robot.handlers.IPivot.IPivotStates;
+// import frc.robot.handlers.Intake.IntakeStates;
 import frc.robot.handlers.Shooter.ShooterStates;
-import frc.robot.handlers.Turret.TurretStates;
+// import frc.robot.handlers.Turret.TurretStates;
 import frc.robot.subsystems.S_Claw;
 import frc.robot.subsystems.S_Climber;
-import frc.robot.subsystems.S_IPivot;
-import frc.robot.subsystems.S_Intake;
+// import frc.robot.subsystems.S_IPivot;
+// import frc.robot.subsystems.S_Intake;
 import frc.robot.subsystems.S_Shooter;
-import frc.robot.subsystems.S_Turret;
+// import frc.robot.subsystems.S_Turret;
 
 public class Manager extends SubsystemBase implements CheckableSubsystem, StateSubsystem {
   private boolean initialized = false, status = false;
@@ -91,6 +92,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
     switch(desiredState) {
       case IDLE:
         Climber.getInstance().setDesiredState(ClimberStates.IDLE);
+        Claw.getInstance().setDesiredState(ClawStates.IDLE);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.IDLE);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -100,6 +102,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case DRIVING:
         Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -109,6 +112,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case SHOOTING:
         Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING);
@@ -118,6 +122,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case PASSING:
         Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING); // Subject to change
@@ -125,26 +130,27 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
         break;
 
-      case INTAKING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
-        // Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
-        // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
-        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
-        // Turret.getInstance().setDesiredState(TurretStates.IDLE);
+      // case INTAKING:
+      //   Climber.getInstance().setDesiredState(ClimberStates.HOME);
+      //   // Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
+      //   // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
+      //   Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+      //   // Turret.getInstance().setDesiredState(TurretStates.IDLE);
 
-        break;
+      //   break;
 
-      case OUTTAKING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
-        // Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
-        // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
-        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
-        // Turret.getInstance().setDesiredState(TurretStates.IDLE);
+      // case OUTTAKING:
+      //   Climber.getInstance().setDesiredState(ClimberStates.HOME);
+      //   // Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
+      //   // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
+      //   Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+      //   // Turret.getInstance().setDesiredState(TurretStates.IDLE);
 
-        break;
+      //   break;
 
       case CLIMBING:
         Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
+        Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -154,6 +160,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case LOWERING:
         Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
+        Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -180,8 +187,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       case DRIVING:
       case SHOOTING:
       case PASSING:
-      case INTAKING:
-      case OUTTAKING:
+      // case INTAKING:
+      // case OUTTAKING:
       case CLIMBING:
       case LOWERING:
       
@@ -213,8 +220,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
     DRIVING,
     SHOOTING,
     PASSING,
-    INTAKING,
-    OUTTAKING,
+    // INTAKING,
+    // OUTTAKING,
     CLIMBING,
     LOWERING;
   }

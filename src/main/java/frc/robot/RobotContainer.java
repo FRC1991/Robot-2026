@@ -40,9 +40,9 @@ public class RobotContainer {
 
     Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.INTAKING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
-    Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
     Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
 
