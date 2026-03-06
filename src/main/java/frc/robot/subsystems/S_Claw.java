@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
@@ -17,12 +18,16 @@ public class S_Claw extends SubsystemBase implements CheckableSubsystem {
   private TalonFX motor1;
   private TalonFX motor2;
 
+  private PIDController posController;
+
   private static S_Claw m_Instance;
   
   /** Creates a new S_Claw. */
   private S_Claw() {
     motor1 = new TalonFX(CANConstants.HOOK_ONE_ID);
     motor2 = new TalonFX(CANConstants.HOOK_TWO_ID);
+
+    posController = new PIDController(0.01, 0, 0);
 
     initialized = true;
   }
