@@ -24,25 +24,25 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
     CANConstants.FRONT_LEFT_DRIVING_ID,
     CANConstants.FRONT_LEFT_TURNING_ID,
     CANConstants.FRONT_LEFT_ENCODER_CHANNEL,
-    CANConstants.FRONT_LEFT_CHASSIS_OFFSET);
+    SwerveConstants.FRONT_LEFT_CHASSIS_OFFSET);
 
   private final SwerveModule m_frontRight = new SwerveModule(
     CANConstants.FRONT_RIGHT_DRIVING_ID,
     CANConstants.FRONT_RIGHT_TURNING_ID,
     CANConstants.FRONT_RIGHT_ENCODER_CHANNEL,
-    CANConstants.FRONT_RIGHT_CHASSIS_OFFSET);
+    SwerveConstants.FRONT_RIGHT_CHASSIS_OFFSET);
 
   private final SwerveModule m_backRight = new SwerveModule(
     CANConstants.BACK_RIGHT_DRIVING_ID,
     CANConstants.BACK_RIGHT_TURNING_ID,
     CANConstants.BACK_RIGHT_ENCODER_CHANNEL,
-    CANConstants.BACK_RIGHT_CHASSIS_OFFSET);
+    SwerveConstants.BACK_RIGHT_CHASSIS_OFFSET);
 
   private final SwerveModule m_backLeft = new SwerveModule(
     CANConstants.BACK_LEFT_DRIVING_ID,
     CANConstants.BACK_LEFT_TURNING_ID,
     CANConstants.BACK_LEFT_ENCODER_CHANNEL,
-    CANConstants.BACK_LEFT_CHASSIS_OFFSET);
+    SwerveConstants.BACK_LEFT_CHASSIS_OFFSET);
 
   private boolean initialized = false, status = false;
 

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
@@ -20,8 +21,8 @@ public class S_Climber extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_Climber. */
   private S_Climber() {
-    motor1 = new TalonFX(99999);
-    motor2 = new TalonFX(99998);
+    motor1 = new TalonFX(CANConstants.CLIMBER_ONE_ID);
+    motor2 = new TalonFX(CANConstants.CLIMBER_TWO_ID);
 
     initialized = true;
   }

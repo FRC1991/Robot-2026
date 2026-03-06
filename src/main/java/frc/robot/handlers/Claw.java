@@ -5,20 +5,20 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.S_CPivot;
+import frc.robot.subsystems.S_Claw;
 
-public class CPivot extends SubsystemBase implements StateSubsystem {
-  private CPivotStates desiredState, currentState = CPivotStates.IDLE;
-  private S_CPivot cPivot = S_CPivot.getInstance();
+public class Claw extends SubsystemBase implements StateSubsystem {
+  private ClawStates desiredState, currentState = ClawStates.IDLE;
+  private S_Claw claw = S_Claw.getInstance();
 
-  private static CPivot m_Instance;
+  private static Claw m_Instance;
   
-  /** Creates a new CPivot. */
-  private CPivot() {}
+  /** Creates a new Claw. */
+  private Claw() {}
 
-  public static CPivot getInstance() {
+  public static Claw getInstance() {
     if(m_Instance == null) {
-      m_Instance = new CPivot();
+      m_Instance = new Claw();
     }
 
     return m_Instance;
@@ -27,7 +27,7 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
   @Override
   public void setDesiredState(State state) {
     if(desiredState != state) {
-      desiredState = (CPivotStates) state;
+      desiredState = (ClawStates) state;
       handleStateTransition();
     }
   }
@@ -37,18 +37,17 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        cPivot.stop();
+        claw.stop();
 
         break;
-
+      
       case HOME:
-      case CLIMBING:
-      case RETURNING:
+      case HOLDING:
 
         break;
 
       default:
-      
+
         break;
     }
 
@@ -61,18 +60,17 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
       case IDLE:
       case BROKEN:
       case HOME:
-      case CLIMBING:
-      case RETURNING:
+      case HOLDING:
 
         break;
 
       default:
-      
+
         break;
     }
 
-    if(!cPivot.checkSubsystem()) {
-      setDesiredState(CPivotStates.BROKEN);
+    if(!claw.checkSubsystem()) {
+      setDesiredState(ClawStates.BROKEN);
     }
   }
 
@@ -81,15 +79,14 @@ public class CPivot extends SubsystemBase implements StateSubsystem {
     update();
   }
 
-  public CPivotStates getState() {
+  public ClawStates getState() {
     return currentState;
   }
 
-  public enum CPivotStates implements State {
+  public enum ClawStates implements State {
     IDLE,
     BROKEN,
     HOME,
-    CLIMBING,
-    RETURNING;
+    HOLDING;
   }
 }

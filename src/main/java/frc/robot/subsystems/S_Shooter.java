@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
@@ -20,7 +21,7 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_Shooter. */
   private S_Shooter() {
-    motor = new SparkMax(99994, MotorType.kBrushless);
+    motor = new SparkMax(CANConstants.SHOOTER_ID, MotorType.kBrushless);
 
     initialized = true;
   }

@@ -7,38 +7,43 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
-public class S_CPivot extends SubsystemBase implements CheckableSubsystem {
+public class S_Claw extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
+
+  private TalonFX motor1;
+  private TalonFX motor2;
+
+  private static S_Claw m_Instance;
   
-  private TalonFX motor;
-  
-  private static S_CPivot m_Instance;
-  
-  /** Creates a new S_CPivot. */
-  private S_CPivot() {
-    motor = new TalonFX(99995);
+  /** Creates a new S_Claw. */
+  private S_Claw() {
+    motor1 = new TalonFX(CANConstants.HOOK_ONE_ID);
+    motor2 = new TalonFX(CANConstants.HOOK_TWO_ID);
 
     initialized = true;
   }
 
-  public static S_CPivot getInstance() {
+  public static S_Claw getInstance() {
     if(m_Instance == null) {
-      m_Instance = new S_CPivot();
+      m_Instance = new S_Claw();
     }
 
     return m_Instance;
   }
 
   public void set(double speed) {
-    motor.set(Utils.normalize(speed));
+    motor1.set(Utils.normalize(speed));
+    motor2.set(Utils.normalize(speed));
   }
 
   @Override
   public void stop() {
-    motor.stopMotor();
+    motor1.stopMotor();
+    motor2.stopMotor();
   }
 
   @Override

@@ -39,21 +39,24 @@ public final class Constants {
     public static final int BACK_RIGHT_TURNING_ID = 8;
     public static final int BACK_LEFT_TURNING_ID = 9;
 
+    public static final int GYRO_ID = 10;
+
+    // These are for the motors that power the elevator for the climber
+    public static final int CLIMBER_ONE_ID = 11;
+    public static final int CLIMBER_TWO_ID = 12;
+
+    // These are for the motors that power the hooks on the climber
+    public static final int HOOK_ONE_ID = 13;
+    public static final int HOOK_TWO_ID = 14;
+
+    public static final int SHOOTER_ID = 15;
+
     // Encoder channels for each swerve module
     public static final int FRONT_LEFT_ENCODER_CHANNEL = 0;
     public static final int FRONT_RIGHT_ENCODER_CHANNEL = 1;
 
     public static final int BACK_RIGHT_ENCODER_CHANNEL = 2;
     public static final int BACK_LEFT_ENCODER_CHANNEL = 3;
-
-    // Offsets for each swerve module
-    public static final double FRONT_LEFT_CHASSIS_OFFSET = -(Math.PI / 2) + (Math.PI / 3) - 0.385; // GOOD
-    public static final double FRONT_RIGHT_CHASSIS_OFFSET = Math.PI + (Math.PI / 3) - 0.525; // GOOD
-
-    public static final double BACK_RIGHT_CHASSIS_OFFSET = -(Math.PI + (Math.PI / 3)) - 0.305; // GOOD
-    public static final double BACK_LEFT_CHASSIS_OFFSET = Math.PI - 0.505; // GOOD
-
-    public static final int GYRO_ID = 10;
   }
 
   public static abstract class ModuleConstants {
@@ -82,11 +85,12 @@ public final class Constants {
       new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
       new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
 
-    // Angular offsets of the modules relative to the chassis in radians
-    public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = 0; // These probably need to be changed
-    public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
-    public static final double BACK_LEFT_CHASSIS_ANGULAR_OFFSET = 0;
-    public static final double BACK_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
+    // Offsets for each swerve module
+    public static final double FRONT_LEFT_CHASSIS_OFFSET = -(Math.PI / 2) + (Math.PI / 3) - 0.385; // GOOD
+    public static final double FRONT_RIGHT_CHASSIS_OFFSET = Math.PI + (Math.PI / 3) - 0.525; // GOOD
+
+    public static final double BACK_RIGHT_CHASSIS_OFFSET = -(Math.PI + (Math.PI / 3)) - 0.305; // GOOD
+    public static final double BACK_LEFT_CHASSIS_OFFSET = Math.PI - 0.505; // GOOD
 
     // Whether or not the gyro is reversed (angle)
     public static final boolean GYRO_REVERSED = false;
