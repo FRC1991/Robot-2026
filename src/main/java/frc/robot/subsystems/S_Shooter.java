@@ -4,10 +4,14 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
@@ -15,13 +19,18 @@ import frc.utils.Utils;
 public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
-  private SparkMax motor;
+  private TalonFX shootMotor;
+  private SparkMax indexMotor;
   
   private static S_Shooter m_Instance;
   
   /** Creates a new S_Shooter. */
   private S_Shooter() {
-    motor = new SparkMax(CANConstants.SHOOTER_ID, MotorType.kBrushless);
+    shootMotor = new TalonFX(CANConstants.SHOOTER_ID);
+    indexMotor = new SparkMax(CANConstants.INDEXER_ID, MotorType.kBrushless);
+
+    shootMotor.getConfigurator().apply(Constants.KRAKEN_CONFIG);
+    indexMotor.configure(Constants.NEO_CONFIG, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     initialized = true;
   }
@@ -34,13 +43,15 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     return m_Instance;
   }
 
-  public void set(double speed) {
-    motor.set(Utils.normalize(speed));
+  public void set(double shootSpeed, double indexSpeed) {
+    shootMotor.set(Utils.normalize(shootSpeed));
+    indexMotor.set(Utils.normalize(indexSpeed));
   }
 
   @Override
   public void stop() {
-    motor.stopMotor();
+    shootMotor.stopMotor();
+    indexMotor.stopMotor();
   }
 
   @Override

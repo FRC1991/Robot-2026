@@ -4,16 +4,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.net.WebServer;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.handlers.Claw;
+import frc.robot.handlers.Climber;
 import frc.robot.handlers.Manager;
 import frc.robot.handlers.Swerve;
 import frc.robot.handlers.Swerve.SwerveStates;
 import frc.robot.subsystems.S_Swerve;
+import frc.utils.Utils.ElasticUtil;
 import frc.robot.handlers.Manager.ManagerStates;
+import frc.robot.handlers.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,6 +30,16 @@ import frc.robot.handlers.Manager.ManagerStates;
 public class RobotContainer {
   public RobotContainer() {
     configureBindings();
+    configureElastic();
+  }
+
+  private void configureElastic() {
+    WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
+
+    ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
+    ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
+    ElasticUtil.putString("Climber State", () -> Climber.getInstance().getState().toString());
+    ElasticUtil.putString("Claw State", () -> Claw.getInstance().getState().toString());
   }
 
   /**
@@ -44,9 +60,9 @@ public class RobotContainer {
     
     // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 

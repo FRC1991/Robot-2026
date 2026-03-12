@@ -7,14 +7,14 @@ package frc.robot.handlers;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.handlers.Claw.ClawStates;
-import frc.robot.handlers.Climber.ClimberStates;
-// import frc.robot.handlers.IPivot.IPivotStates;
-// import frc.robot.handlers.Intake.IntakeStates;
+// import frc.robot.handlers.Claw.ClawStates;
+// import frc.robot.handlers.Climber.ClimberStates;
+// // import frc.robot.handlers.IPivot.IPivotStates;
+// // import frc.robot.handlers.Intake.IntakeStates;
 import frc.robot.handlers.Shooter.ShooterStates;
-// import frc.robot.handlers.Turret.TurretStates;
-import frc.robot.subsystems.S_Claw;
-import frc.robot.subsystems.S_Climber;
+// // import frc.robot.handlers.Turret.TurretStates;
+// import frc.robot.subsystems.S_Claw;
+// import frc.robot.subsystems.S_Climber;
 // import frc.robot.subsystems.S_IPivot;
 // import frc.robot.subsystems.S_Intake;
 import frc.robot.subsystems.S_Shooter;
@@ -27,8 +27,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   
   private ManagerStates desiredState, currentState = ManagerStates.IDLE;
 
-  private S_Climber climber = S_Climber.getInstance();
-  private S_Claw claw = S_Claw.getInstance();
+  // private S_Climber climber = S_Climber.getInstance();
+  // private S_Claw claw = S_Claw.getInstance();
   // private S_Intake intake = S_Intake.getInstance();
   // private S_IPivot iPivot = S_IPivot.getInstance();
   private S_Shooter shooter = S_Shooter.getInstance();
@@ -36,8 +36,15 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   
   /** Creates a new Manager. */
   private Manager() {
-    initialized = climber.getInitialized();
-    initialized &= claw.getInitialized();
+    // Climber.getInstance();
+    // Claw.getInstance();
+    // Intake.getInstance();
+    // IPivot.getInstance();
+    Shooter.getInstance();
+    // Turret.getInstance();
+    
+    // initialized = climber.getInitialized();
+    // initialized &= claw.getInitialized();
     // initialized &= intake.getInitialized();
     // initialized &= iPivot.getInitialized();
     initialized &= shooter.getInitialized();
@@ -54,8 +61,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   @Override
   public void stop() {
-    climber.stop();
-    claw.stop();
+    // climber.stop();
+    // claw.stop();
     // intake.stop();
     // iPivot.stop();
     shooter.stop();
@@ -69,8 +76,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   @Override
   public boolean checkSubsystem() {
-    status = climber.checkSubsystem();
-    status &= claw.checkSubsystem();
+    // status = climber.checkSubsystem();
+    // status &= claw.checkSubsystem();
     // status &= intake.checkSubsystem();
     // status &= iPivot.checkSubsystem();
     status &= shooter.checkSubsystem();
@@ -91,8 +98,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   public void handleStateTransition() {
     switch(desiredState) {
       case IDLE:
-        Climber.getInstance().setDesiredState(ClimberStates.IDLE);
-        Claw.getInstance().setDesiredState(ClawStates.IDLE);
+        // Climber.getInstance().setDesiredState(ClimberStates.IDLE);
+        // Claw.getInstance().setDesiredState(ClawStates.IDLE);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.IDLE);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -101,8 +108,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case DRIVING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
-        Claw.getInstance().setDesiredState(ClawStates.HOME);
+        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -111,8 +118,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case SHOOTING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
-        Claw.getInstance().setDesiredState(ClawStates.HOME);
+        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING);
@@ -121,8 +128,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case PASSING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
-        Claw.getInstance().setDesiredState(ClawStates.HOME);
+        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING); // Subject to change
@@ -143,14 +150,14 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       //   Climber.getInstance().setDesiredState(ClimberStates.HOME);
       //   // Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
       //   // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
-      //   Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        // Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
       //   // Turret.getInstance().setDesiredState(TurretStates.IDLE);
 
       //   break;
 
       case CLIMBING:
-        Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
-        Claw.getInstance().setDesiredState(ClawStates.HOLDING);
+        // Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
+        // Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -159,8 +166,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case LOWERING:
-        Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
-        Claw.getInstance().setDesiredState(ClawStates.HOLDING);
+        // Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
+        // Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
@@ -211,8 +218,8 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   public Trigger bindState(Trigger button, ManagerStates onTrue, ManagerStates onFalse) {
     return button
-      .onTrue(new InstantCommand(() -> setDesiredState(onTrue), m_Instance))
-      .onFalse(new InstantCommand(() -> setDesiredState(onFalse), m_Instance));
+      .onTrue(new InstantCommand(() -> setDesiredState(onTrue), this))
+      .onFalse(new InstantCommand(() -> setDesiredState(onFalse), this));
   }
 
   public enum ManagerStates implements State {

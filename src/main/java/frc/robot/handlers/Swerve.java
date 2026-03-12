@@ -97,9 +97,9 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
           double rotOffset = LimelightHelpers.getTX(Constants.LIMELIGHT_NAME);
 
           swerve.drive(
-            -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
-            -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
-            -Utils.normalize(rotController.calculate(rotOffset)),
+            MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+            MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+            Utils.normalize(rotController.calculate(rotOffset)),
             true, SwerveConstants.SPEED_SCALE
           );
         } else {
@@ -120,9 +120,9 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
 
   private void drive() {
     swerve.drive(
-      -MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
-      -MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
-      -MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
+      MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+      MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+      MathUtil.applyDeadband(OI.driverController.getRightX(), SwerveConstants.DRIVING_DEADBAND),
       true, SwerveConstants.SPEED_SCALE
     );
   }
