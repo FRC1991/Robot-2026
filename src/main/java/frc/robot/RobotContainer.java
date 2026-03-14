@@ -54,17 +54,17 @@ public class RobotContainer {
   private void configureBindings() {
     Manager.getInstance().bindState(OI.auxController.rightBumper(), ManagerStates.SHOOTING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
 
     // Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
     // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
-    // Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
 
-    // Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
 
-    Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
+    // Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.x(), SwerveStates.LOCKED, SwerveStates.DRIVING);
 

@@ -4,7 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,19 +16,19 @@ import frc.utils.Utils;
 public class S_Climber extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
-  private TalonFX motor1;
-  private TalonFX motor2;
+  private SparkMax motor1;
+  private SparkMax motor2;
 
-  private PIDController posController;
+  // private PIDController posController;
   
   private static S_Climber m_Instance;
   
   /** Creates a new S_Climber. */
   private S_Climber() {
-    motor1 = new TalonFX(CANConstants.CLIMBER_ONE_ID);
-    motor2 = new TalonFX(CANConstants.CLIMBER_TWO_ID);
+    motor1 = new SparkMax(CANConstants.CLIMBER_ONE_ID,  MotorType.kBrushless);
+    motor2 = new SparkMax(CANConstants.CLIMBER_TWO_ID, MotorType.kBrushless);
 
-    posController = new PIDController(0.01, 0, 0);
+    // posController = new PIDController(0.01, 0, 0);
 
     initialized = true;
   }
