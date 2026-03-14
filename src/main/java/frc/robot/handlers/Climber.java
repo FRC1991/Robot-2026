@@ -5,6 +5,7 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.subsystems.S_Climber;
 
 public class Climber extends SubsystemBase implements StateSubsystem {
@@ -61,8 +62,16 @@ public class Climber extends SubsystemBase implements StateSubsystem {
       case IDLE:
       case BROKEN:
       case HOME:
+
+        break;
+
       case CLIMBING:
+        climber.set(ClimberConstants.CLIMBER_SPEED);
+
+        break;
+
       case RETURNING:
+        climber.set(-ClimberConstants.CLIMBER_SPEED);
 
         break;
 

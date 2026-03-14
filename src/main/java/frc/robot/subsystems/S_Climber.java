@@ -42,7 +42,7 @@ public class S_Climber extends SubsystemBase implements CheckableSubsystem {
   }
 
   public void set(double speed) {
-    motor1.set(Utils.normalize(speed));
+    // motor1.set(Utils.normalize(speed));
     motor2.set(Utils.normalize(speed));
   }
 

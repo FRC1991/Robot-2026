@@ -121,4 +121,8 @@ public final class Constants {
     public static final double INDEXER_SPEED = 1.0;
     public static final double SHOOTER_SPEED = 0.7;
   }
+
+  public static abstract class ClimberConstants {
+    public static final double CLIMBER_SPEED = 0.2;
+  }
 }

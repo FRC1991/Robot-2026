@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.handlers.Claw;
@@ -28,6 +29,8 @@ import frc.robot.handlers.Shooter;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private boolean useShootAuto = false;
+  
   public RobotContainer() {
     configureBindings();
     configureElastic();
@@ -78,6 +81,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    if(useShootAuto) {
+      return Commands.sequence(
+        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHOOTING))
+      );
+    }
+
     return Commands.print("No auto configured");
   }
 }

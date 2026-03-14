@@ -108,7 +108,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case DRIVING:
-        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
         // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -118,7 +118,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case SHOOTING:
-        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
         // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -128,7 +128,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case PASSING:
-        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        Climber.getInstance().setDesiredState(ClimberStates.HOME);
         // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -156,7 +156,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       //   break;
 
       case CLIMBING:
-        // Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
+        Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
         // Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -166,7 +166,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case LOWERING:
-        // Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
+        Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
         // Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
