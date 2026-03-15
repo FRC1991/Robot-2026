@@ -65,7 +65,7 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_Swerve. */
   private S_Swerve() {
-    setHeading(180);
+    setHeading(225);
   }
 
   public static S_Swerve getInstance() {

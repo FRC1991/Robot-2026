@@ -27,7 +27,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   
   private ManagerStates desiredState, currentState = ManagerStates.IDLE;
 
-  private S_Climber climber = S_Climber.getInstance();
+  // private S_Climber climber = S_Climber.getInstance();
   // private S_Claw claw = S_Claw.getInstance();
   // private S_Intake intake = S_Intake.getInstance();
   // private S_IPivot iPivot = S_IPivot.getInstance();
@@ -36,14 +36,14 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   
   /** Creates a new Manager. */
   private Manager() {
-    Climber.getInstance();
+    // Climber.getInstance();
     // Claw.getInstance();
     // Intake.getInstance();
     // IPivot.getInstance();
     Shooter.getInstance();
     // Turret.getInstance();
     
-    initialized = climber.getInitialized();
+    // initialized = climber.getInitialized();
     // initialized &= claw.getInitialized();
     // initialized &= intake.getInitialized();
     // initialized &= iPivot.getInitialized();
@@ -61,7 +61,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   @Override
   public void stop() {
-    climber.stop();
+    // climber.stop();
     // claw.stop();
     // intake.stop();
     // iPivot.stop();
@@ -76,7 +76,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   @Override
   public boolean checkSubsystem() {
-    status = climber.checkSubsystem();
+    // status = climber.checkSubsystem();
     // status &= claw.checkSubsystem();
     // status &= intake.checkSubsystem();
     // status &= iPivot.checkSubsystem();
@@ -98,7 +98,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   public void handleStateTransition() {
     switch(desiredState) {
       case IDLE:
-        Climber.getInstance().setDesiredState(ClimberStates.IDLE);
+        // Climber.getInstance().setDesiredState(ClimberStates.IDLE);
         // Claw.getInstance().setDesiredState(ClawStates.IDLE);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.IDLE);
@@ -108,7 +108,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case DRIVING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
         // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -118,7 +118,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case SHOOTING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
         // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -128,7 +128,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case PASSING:
-        Climber.getInstance().setDesiredState(ClimberStates.HOME);
+        // Climber.getInstance().setDesiredState(ClimberStates.HOME);
         // Claw.getInstance().setDesiredState(ClawStates.HOME);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -156,7 +156,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       //   break;
 
       case CLIMBING:
-        Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
+        // Climber.getInstance().setDesiredState(ClimberStates.CLIMBING);
         // Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
@@ -166,7 +166,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         break;
 
       case LOWERING:
-        Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
+        // Climber.getInstance().setDesiredState(ClimberStates.RETURNING);
         // Claw.getInstance().setDesiredState(ClawStates.HOLDING);
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);

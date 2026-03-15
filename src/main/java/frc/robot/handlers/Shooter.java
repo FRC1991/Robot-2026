@@ -43,24 +43,24 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        // CommandScheduler.getInstance().cancelAll();
+        CommandScheduler.getInstance().cancelAll();
         indexSpeed = 0;
         shooter.stop();
 
         break;
 
       case SHOOTING:
-        // CommandScheduler.getInstance().schedule(
-        //   new WaitCommand(0.5)
-        //     .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
-        //     .andThen(new WaitCommand(0.5))
-        //     .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
-        // );
-
         CommandScheduler.getInstance().schedule(
-          new WaitCommand(0.25)
+          new WaitCommand(0.5)
             .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
+            .andThen(new WaitCommand(0.25))
+            .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
         );
+
+        // CommandScheduler.getInstance().schedule(
+        //   new WaitCommand(0.25)
+        //     .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
+        // );
 
         break;
 

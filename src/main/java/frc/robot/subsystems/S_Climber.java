@@ -16,8 +16,8 @@ import frc.utils.Utils;
 public class S_Climber extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
-  private SparkMax motor1;
-  private SparkMax motor2;
+  // private SparkMax motor1;
+  // private SparkMax motor2;
 
   // private PIDController posController;
   
@@ -25,8 +25,8 @@ public class S_Climber extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_Climber. */
   private S_Climber() {
-    motor1 = new SparkMax(CANConstants.CLIMBER_ONE_ID,  MotorType.kBrushless);
-    motor2 = new SparkMax(CANConstants.CLIMBER_TWO_ID, MotorType.kBrushless);
+    // motor1 = new SparkMax(CANConstants.CLIMBER_ONE_ID,  MotorType.kBrushless);
+    // motor2 = new SparkMax(CANConstants.CLIMBER_TWO_ID, MotorType.kBrushless);
 
     // posController = new PIDController(0.01, 0, 0);
 
@@ -43,13 +43,13 @@ public class S_Climber extends SubsystemBase implements CheckableSubsystem {
 
   public void set(double speed) {
     // motor1.set(Utils.normalize(speed));
-    motor2.set(Utils.normalize(speed));
+    // motor2.set(Utils.normalize(speed));
   }
 
   @Override
   public void stop() {
-    motor1.stopMotor();
-    motor2.stopMotor();
+    // motor1.stopMotor();
+    // motor2.stopMotor();
   }
 
   @Override

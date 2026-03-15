@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.handlers.Claw;
@@ -29,7 +29,7 @@ import frc.robot.handlers.Shooter;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private boolean useShootAuto = false;
+  private boolean useShootAuto = true;
   
   public RobotContainer() {
     configureBindings();
@@ -63,15 +63,15 @@ public class RobotContainer {
     
     // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
+    // Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
 
     // Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.x(), SwerveStates.LOCKED, SwerveStates.DRIVING);
 
-    OI.driverController.start()
+    OI.driverController.leftBumper()
       .onTrue(new InstantCommand(() -> S_Swerve.getInstance().setHeading(0), Swerve.getInstance()));
   }
 
@@ -83,7 +83,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     if(useShootAuto) {
       return Commands.sequence(
-        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHOOTING))
+        new WaitCommand(2.0),
+        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHOOTING)),
+        new WaitCommand(15.5),
+        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING))
       );
     }
 
