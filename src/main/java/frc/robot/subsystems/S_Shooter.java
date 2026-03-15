@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.CANConstants;
@@ -29,7 +32,14 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     shootMotor = new TalonFX(CANConstants.SHOOTER_ID);
     indexMotor = new SparkMax(CANConstants.INDEXER_ID, MotorType.kBrushless);
 
-    shootMotor.getConfigurator().apply(Constants.KRAKEN_CONFIG);
+    TalonFXConfiguration shootMotorConfig = new TalonFXConfiguration();
+
+    shootMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent = 80.0;
+    shootMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent = -80.0;
+    shootMotorConfig.Slot0.kP = 0.1;
+    shootMotorConfig.Slot0.kI = 0;
+    shootMotorConfig.Slot0.kD = 0;
+
     indexMotor.configure(Constants.NEO_CONFIG, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     initialized = true;
@@ -46,6 +56,8 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
   public void set(double shootSpeed, double indexSpeed) {
     shootMotor.set(Utils.normalize(shootSpeed));
     indexMotor.set(Utils.normalize(indexSpeed));
+
+    System.out.println(shootMotor.getVelocity().getValueAsDouble());
   }
 
   @Override
