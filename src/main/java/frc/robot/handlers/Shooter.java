@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.S_Shooter;
+import frc.utils.Utils.ElasticUtil;
 
 public class Shooter extends SubsystemBase implements StateSubsystem {
   private ShooterStates desiredState, currentState = ShooterStates.IDLE;
@@ -20,7 +21,9 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
   private double indexSpeed = 0;
   
   /** Creates a new Shooter. */
-  private Shooter() {}
+  private Shooter() {
+    ElasticUtil.putDouble("Index Speed", () -> indexSpeed);
+  }
 
   public static Shooter getInstance() {
     if(m_Instance == null) {

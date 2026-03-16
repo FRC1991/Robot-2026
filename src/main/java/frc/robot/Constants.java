@@ -27,6 +27,8 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static final String LIMELIGHT_NAME = "limelight";
 
+  public static final double KRAKEN_MAX_SPEED = 0;
+
   public static final TalonFXConfiguration KRAKEN_CONFIG = new TalonFXConfiguration()
     .withTorqueCurrent(new TorqueCurrentConfigs().withPeakForwardTorqueCurrent(80.0).withPeakReverseTorqueCurrent(-80.0))
     .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake));
@@ -119,7 +121,7 @@ public final class Constants {
 
   public static abstract class ShooterConstants {
     public static final double INDEXER_SPEED = 0.8;
-    public static final double SHOOTER_SPEED = 0.58;
+    public static final double SHOOTER_SPEED = 0.55;
   }
 
   public static abstract class ClimberConstants {

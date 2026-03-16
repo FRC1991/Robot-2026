@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.CheckableSubsystem;
+import frc.utils.Utils.ElasticUtil;
 
 public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   private final SwerveModule m_frontLeft = new SwerveModule(
@@ -65,6 +66,8 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_Swerve. */
   private S_Swerve() {
+    ElasticUtil.putDouble("Gyro Angle", this::getHeading);
+
     setHeading(225);
   }
 
