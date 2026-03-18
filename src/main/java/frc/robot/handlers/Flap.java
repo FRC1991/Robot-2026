@@ -5,20 +5,20 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.S_Claw;
+import frc.robot.subsystems.S_Flap;
 
-public class Claw extends SubsystemBase implements StateSubsystem {
-  private ClawStates desiredState, currentState = ClawStates.IDLE;
-  private S_Claw claw = S_Claw.getInstance();
+public class Flap extends SubsystemBase implements StateSubsystem {
+  private FlapStates desiredState, currentState = FlapStates.IDLE;
+  private S_Flap flap = S_Flap.getInstance();
 
-  private static Claw m_Instance;
-  
-  /** Creates a new Claw. */
-  private Claw() {}
+  private static Flap m_Instance;
 
-  public static Claw getInstance() {
+  /** Creates a new Flap. */
+  private Flap() {}
+
+  public static Flap getInstance() {
     if(m_Instance == null) {
-      m_Instance = new Claw();
+      m_Instance = new Flap();
     }
 
     return m_Instance;
@@ -27,7 +27,7 @@ public class Claw extends SubsystemBase implements StateSubsystem {
   @Override
   public void setDesiredState(State state) {
     if(desiredState != state) {
-      desiredState = (ClawStates) state;
+      desiredState = (FlapStates) state;
       handleStateTransition();
     }
   }
@@ -37,17 +37,12 @@ public class Claw extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        claw.stop();
-
-        break;
-      
-      case HOME:
-      case HOLDING:
+        flap.stop();
 
         break;
 
       default:
-
+      
         break;
     }
 
@@ -59,8 +54,6 @@ public class Claw extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
-      case HOME:
-      case HOLDING:
 
         break;
 
@@ -69,8 +62,8 @@ public class Claw extends SubsystemBase implements StateSubsystem {
         break;
     }
 
-    if(!claw.checkSubsystem()) {
-      setDesiredState(ClawStates.BROKEN);
+    if(!flap.checkSubsystem()) {
+      setDesiredState(FlapStates.BROKEN);
     }
   }
 
@@ -79,14 +72,12 @@ public class Claw extends SubsystemBase implements StateSubsystem {
     update();
   }
 
-  public ClawStates getState() {
+  public FlapStates getState() {
     return currentState;
   }
 
-  public enum ClawStates implements State {
+  public enum FlapStates implements State {
     IDLE,
-    BROKEN,
-    HOME,
-    HOLDING;
+    BROKEN;
   }
 }

@@ -68,6 +68,10 @@ public final class Constants {
     public static final int SHOOTER_ID = 15;
     public static final int INDEXER_ID = 16;
 
+    public static final int HOPPER_ID = 17;
+
+    public static final int FLAP_ID = 18;
+
     // Encoder channels for each swerve module
     public static final int FRONT_LEFT_ENCODER_CHANNEL = 3;
     public static final int FRONT_RIGHT_ENCODER_CHANNEL = 0;

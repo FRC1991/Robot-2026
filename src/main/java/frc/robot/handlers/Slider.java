@@ -5,21 +5,20 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimberConstants;
-import frc.robot.subsystems.S_Climber;
+import frc.robot.subsystems.S_Slider;
 
-public class Climber extends SubsystemBase implements StateSubsystem {
-  private ClimberStates desiredState, currentState = ClimberStates.IDLE;
-  private S_Climber climber = S_Climber.getInstance();
-  
-  private static Climber m_Instance;
-  
-  /** Creates a new Climber. */
-  private Climber() {}
+public class Slider extends SubsystemBase implements StateSubsystem {
+  private IPivotStates desiredState, currentState = IPivotStates.IDLE;
+  private S_Slider iPivot = S_Slider.getInstance();
 
-  public static Climber getInstance() {
+  private static Slider m_Instance;
+  
+  /** Creates a new IPivot. */
+  private Slider() {}
+
+  public static Slider getInstance() {
     if(m_Instance == null) {
-      m_Instance = new Climber();
+      m_Instance = new Slider();
     }
 
     return m_Instance;
@@ -28,7 +27,7 @@ public class Climber extends SubsystemBase implements StateSubsystem {
   @Override
   public void setDesiredState(State state) {
     if(desiredState != state) {
-      desiredState = (ClimberStates) state;
+      desiredState = (IPivotStates) state;
       handleStateTransition();
     }
   }
@@ -38,13 +37,12 @@ public class Climber extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        climber.stop();
+        iPivot.stop();
 
         break;
 
       case HOME:
-      case CLIMBING:
-      case RETURNING:
+      case INTAKING:
 
         break;
 
@@ -62,26 +60,17 @@ public class Climber extends SubsystemBase implements StateSubsystem {
       case IDLE:
       case BROKEN:
       case HOME:
-
-        break;
-
-      case CLIMBING:
-        climber.set(ClimberConstants.CLIMBER_SPEED);
-
-        break;
-
-      case RETURNING:
-        climber.set(-ClimberConstants.CLIMBER_SPEED);
+      case INTAKING:
 
         break;
 
       default:
-      
+
         break;
     }
 
-    if(!climber.checkSubsystem()) {
-      setDesiredState(ClimberStates.BROKEN);
+    if(!iPivot.checkSubsystem()) {
+      setDesiredState(IPivotStates.BROKEN);
     }
   }
 
@@ -90,15 +79,14 @@ public class Climber extends SubsystemBase implements StateSubsystem {
     update();
   }
 
-  public ClimberStates getState() {
+  public IPivotStates getState() {
     return currentState;
   }
 
-  public enum ClimberStates implements State {
+  public enum IPivotStates implements State {
     IDLE,
     BROKEN,
     HOME,
-    CLIMBING,
-    RETURNING;
+    INTAKING;
   }
 }

@@ -60,11 +60,6 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
             .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
         );
 
-        // CommandScheduler.getInstance().schedule(
-        //   new WaitCommand(0.25)
-        //     .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
-        // );
-
         break;
 
       default:

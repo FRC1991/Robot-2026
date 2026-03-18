@@ -5,20 +5,20 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.S_IPivot;
+import frc.robot.subsystems.S_Hopper;
 
-public class IPivot extends SubsystemBase implements StateSubsystem {
-  private IPivotStates desiredState, currentState = IPivotStates.IDLE;
-  private S_IPivot iPivot = S_IPivot.getInstance();
+public class Hopper extends SubsystemBase implements StateSubsystem {
+  private HopperStates desiredState, currentState = HopperStates.IDLE;
+  private S_Hopper hopper = S_Hopper.getInstance();
 
-  private static IPivot m_Instance;
+  private static Hopper m_Instance;
   
-  /** Creates a new IPivot. */
-  private IPivot() {}
+  /** Creates a new Hopper. */
+  private Hopper() {}
 
-  public static IPivot getInstance() {
+  public static Hopper getInstance() {
     if(m_Instance == null) {
-      m_Instance = new IPivot();
+      m_Instance = new Hopper();
     }
 
     return m_Instance;
@@ -27,7 +27,7 @@ public class IPivot extends SubsystemBase implements StateSubsystem {
   @Override
   public void setDesiredState(State state) {
     if(desiredState != state) {
-      desiredState = (IPivotStates) state;
+      desiredState = (HopperStates) state;
       handleStateTransition();
     }
   }
@@ -37,12 +37,11 @@ public class IPivot extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        iPivot.stop();
+        hopper.stop();
 
         break;
 
-      case HOME:
-      case INTAKING:
+      case RUNNING:
 
         break;
 
@@ -59,8 +58,10 @@ public class IPivot extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
-      case HOME:
-      case INTAKING:
+
+        break;
+         
+      case RUNNING:
 
         break;
 
@@ -69,8 +70,8 @@ public class IPivot extends SubsystemBase implements StateSubsystem {
         break;
     }
 
-    if(!iPivot.checkSubsystem()) {
-      setDesiredState(IPivotStates.BROKEN);
+    if(!hopper.checkSubsystem()) {
+      setDesiredState(HopperStates.BROKEN);
     }
   }
 
@@ -78,15 +79,14 @@ public class IPivot extends SubsystemBase implements StateSubsystem {
   public void periodic() {
     update();
   }
-
-  public IPivotStates getState() {
+  
+  public HopperStates getState() {
     return currentState;
   }
 
-  public enum IPivotStates implements State {
+  public enum HopperStates implements State {
     IDLE,
     BROKEN,
-    HOME,
-    INTAKING;
+    RUNNING;
   }
 }

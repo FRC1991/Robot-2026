@@ -4,30 +4,30 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
-public class S_IPivot extends SubsystemBase implements CheckableSubsystem {
+public class S_Hopper extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
+
+  private TalonFX motor;
+
+  private static S_Hopper m_Instance;
   
-  private SparkMax motor;
-  
-  private static S_IPivot m_Instance;
-  
-  /** Creates a new S_IPivot. */
-  private S_IPivot() {
-    motor = new SparkMax(99996, MotorType.kBrushless);
+  /** Creates a new S_Spindexer. */
+  private S_Hopper() {
+    motor = new TalonFX(CANConstants.HOPPER_ID);
 
     initialized = true;
   }
 
-  public static S_IPivot getInstance() {
+  public static S_Hopper getInstance() {
     if(m_Instance == null) {
-      m_Instance = new S_IPivot();
+      m_Instance = new S_Hopper();
     }
 
     return m_Instance;

@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.handlers.Claw;
-import frc.robot.handlers.Climber;
 import frc.robot.handlers.Manager;
 import frc.robot.handlers.Swerve;
 import frc.robot.handlers.Swerve.SwerveStates;
@@ -41,8 +39,6 @@ public class RobotContainer {
 
     ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
     ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
-    ElasticUtil.putString("Climber State", () -> Climber.getInstance().getState().toString());
-    ElasticUtil.putString("Claw State", () -> Claw.getInstance().getState().toString());
   }
 
   /**

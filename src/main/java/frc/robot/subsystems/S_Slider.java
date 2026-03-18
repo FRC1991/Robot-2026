@@ -7,49 +7,39 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
-public class S_Climber extends SubsystemBase implements CheckableSubsystem {
+public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
-  // private SparkMax motor1;
-  // private SparkMax motor2;
-
-  // private PIDController posController;
+  private SparkMax motor;
   
-  private static S_Climber m_Instance;
+  private static S_Slider m_Instance;
   
-  /** Creates a new S_Climber. */
-  private S_Climber() {
-    // motor1 = new SparkMax(CANConstants.CLIMBER_ONE_ID,  MotorType.kBrushless);
-    // motor2 = new SparkMax(CANConstants.CLIMBER_TWO_ID, MotorType.kBrushless);
-
-    // posController = new PIDController(0.01, 0, 0);
+  /** Creates a new S_IPivot. */
+  private S_Slider() {
+    motor = new SparkMax(99996, MotorType.kBrushless);
 
     initialized = true;
   }
 
-  public static S_Climber getInstance() {
+  public static S_Slider getInstance() {
     if(m_Instance == null) {
-      m_Instance = new S_Climber();
+      m_Instance = new S_Slider();
     }
 
     return m_Instance;
   }
 
   public void set(double speed) {
-    // motor1.set(Utils.normalize(speed));
-    // motor2.set(Utils.normalize(speed));
+    motor.set(Utils.normalize(speed));
   }
 
   @Override
   public void stop() {
-    // motor1.stopMotor();
-    // motor2.stopMotor();
+    motor.stopMotor();
   }
 
   @Override
