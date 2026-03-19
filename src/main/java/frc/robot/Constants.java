@@ -40,6 +40,20 @@ public final class Constants {
     public static final int kAuxControllerPort = 1;
   }
 
+  public static abstract class FieldConstants {
+    public static final double FIELD_WIDTH_METERS = Units.inchesToMeters(316.64);
+    public static final double FIELD_HALF_METERS = FIELD_WIDTH_METERS / 2;
+
+    public static final Translation2d BLUE_HUB_LOC = new Translation2d(Units.inchesToMeters(181.56), Units.inchesToMeters(158.32));
+    public static final Translation2d RED_HUB_LOC = new Translation2d(Units.inchesToMeters(468.56), Units.inchesToMeters(158.32));
+
+    public static final Translation2d BLUE_LEFT_BUMP_LOC = new Translation2d(Units.inchesToMeters(181.56), Units.inchesToMeters(254.78));
+    public static final Translation2d RED_LEFT_BUMP_LOC = new Translation2d(Units.inchesToMeters(468.56), Units.inchesToMeters(61.86));
+
+    public static final Translation2d BLUE_RIGHT_BUMP_LOC = new Translation2d(Units.inchesToMeters(181.56), Units.inchesToMeters(61.86));
+    public static final Translation2d RED_RIGHT_BUMP_LOC = new Translation2d(Units.inchesToMeters(468.56), Units.inchesToMeters(254.78));
+  }
+
   public static abstract class CANConstants {
     // Driving motor CAN ids
     public static final int FRONT_LEFT_DRIVING_ID = 5;
@@ -71,6 +85,10 @@ public final class Constants {
     public static final int HOPPER_ID = 17;
 
     public static final int FLAP_ID = 18;
+
+    public static final int TURRET_ID = 19;
+
+    public static final int INTAKE_ID = 20;
 
     // Encoder channels for each swerve module
     public static final int FRONT_LEFT_ENCODER_CHANNEL = 3;
@@ -128,7 +146,8 @@ public final class Constants {
     public static final double SHOOTER_SPEED = 0.55;
   }
 
-  public static abstract class ClimberConstants {
-    public static final double CLIMBER_SPEED = 0.2;
+  public static abstract class SliderConstants {
+    public static final double HOME_POSITION = 0;
+    public static final double INTAKING_POSITION = 0;
   }
 }

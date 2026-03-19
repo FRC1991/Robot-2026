@@ -34,13 +34,6 @@ public class RobotContainer {
     configureElastic();
   }
 
-  private void configureElastic() {
-    WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
-
-    ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
-    ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
-  }
-
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -69,6 +62,13 @@ public class RobotContainer {
 
     OI.driverController.leftBumper()
       .onTrue(new InstantCommand(() -> S_Swerve.getInstance().setHeading(0), Swerve.getInstance()));
+  }
+
+  private void configureElastic() {
+    WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
+
+    ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
+    ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
   }
 
   /**

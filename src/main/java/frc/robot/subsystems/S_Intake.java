@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
@@ -20,7 +21,7 @@ public class S_Intake extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_Intake. */
   private S_Intake() {
-    motor = new SparkMax(99997, MotorType.kBrushless);
+    motor = new SparkMax(CANConstants.INTAKE_ID, MotorType.kBrushless);
 
     initialized = true;
   }

@@ -7,11 +7,9 @@ package frc.robot.handlers;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-// // import frc.robot.handlers.IPivot.IPivotStates;
 // // import frc.robot.handlers.Intake.IntakeStates;
 import frc.robot.handlers.Shooter.ShooterStates;
 // // import frc.robot.handlers.Turret.TurretStates;
-// import frc.robot.subsystems.S_IPivot;
 // import frc.robot.subsystems.S_Intake;
 import frc.robot.subsystems.S_Shooter;
 // import frc.robot.subsystems.S_Turret;
@@ -24,19 +22,16 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   private ManagerStates desiredState, currentState = ManagerStates.IDLE;
 
   // private S_Intake intake = S_Intake.getInstance();
-  // private S_IPivot iPivot = S_IPivot.getInstance();
   private S_Shooter shooter = S_Shooter.getInstance();
   // private S_Turret turret = S_Turret.getInstance();
   
   /** Creates a new Manager. */
   private Manager() {
     // Intake.getInstance();
-    // IPivot.getInstance();
     Shooter.getInstance();
     // Turret.getInstance();
     
     // initialized &= intake.getInitialized();
-    // initialized &= iPivot.getInitialized();
     initialized = shooter.getInitialized();
     // initialized &= turret.getInitialized();
   }
@@ -52,7 +47,6 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   @Override
   public void stop() {
     // intake.stop();
-    // iPivot.stop();
     shooter.stop();
     // turret.stop();
   }
@@ -65,7 +59,6 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   @Override
   public boolean checkSubsystem() {
     // status &= intake.checkSubsystem();
-    // status &= iPivot.checkSubsystem();
     status = shooter.checkSubsystem();
     // status &= turret.checkSubsystem();
 
@@ -110,7 +103,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       case PASSING:
         // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
         // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
-        Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING); // Subject to change
+        Shooter.getInstance().setDesiredState(ShooterStates.PASSING);
         // Turret.getInstance().setDesiredState(TurretStates.PASSING);
 
         break;
@@ -126,22 +119,6 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       case OUTTAKING:
         // Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
         // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
-        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
-        // Turret.getInstance().setDesiredState(TurretStates.IDLE);
-
-        break;
-
-      case CLIMBING:
-        // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
-        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
-        // Turret.getInstance().setDesiredState(TurretStates.IDLE);
-
-        break;
-
-      case LOWERING:
-        // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
         // Turret.getInstance().setDesiredState(TurretStates.IDLE);
 
@@ -168,8 +145,6 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       case PASSING:
       case INTAKING:
       case OUTTAKING:
-      case CLIMBING:
-      case LOWERING:
       
         break;
 
@@ -200,8 +175,6 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
     SHOOTING,
     PASSING,
     INTAKING,
-    OUTTAKING,
-    CLIMBING,
-    LOWERING;
+    OUTTAKING;
   }
 }

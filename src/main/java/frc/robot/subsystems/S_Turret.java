@@ -4,23 +4,28 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 
 public class S_Turret extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
-  private SparkMax motor;
+  private TalonFX motor;
+
+  private PIDController angleController;
   
   private static S_Turret m_Instance;
   
   /** Creates a new S_Turret. */
   private S_Turret() {
-    motor = new SparkMax(99993, MotorType.kBrushless);
+    motor = new TalonFX(CANConstants.TURRET_ID);
+
+    angleController = new PIDController(0.01, 0, 0);
 
     initialized = true;
   }
@@ -33,8 +38,8 @@ public class S_Turret extends SubsystemBase implements CheckableSubsystem {
     return m_Instance;
   }
 
-  public void set(double speed) {
-    motor.set(Utils.normalize(speed));
+  public void set(double setpoint) {
+    motor.set(Utils.normalize(angleController.calculate(S_Swerve.getInstance().getTurretEncoder().getPosition(), setpoint)));
   }
 
   @Override

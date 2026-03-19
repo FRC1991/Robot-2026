@@ -5,6 +5,7 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.S_Swerve;
 import frc.robot.subsystems.S_Turret;
 
 public class Turret extends SubsystemBase implements StateSubsystem {
@@ -59,8 +60,16 @@ public class Turret extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
+
+        break;
+
       case SHOOTING:
+        turret.set(S_Swerve.getInstance().getAngleToHub());
+
+        break;
+
       case PASSING:
+        turret.set(S_Swerve.getInstance().getAngleToBump());
 
         break;
 

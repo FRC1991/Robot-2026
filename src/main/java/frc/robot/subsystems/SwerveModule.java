@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
@@ -128,6 +129,10 @@ public class SwerveModule implements CheckableSubsystem {
 
     public void resetDriveEncoder() {
         driveMotor.setPosition(0);
+    }
+
+    public AbsoluteEncoder getAbsoluteEncoder() {
+        return turningMotor.getAbsoluteEncoder();
     }
 
     @Override

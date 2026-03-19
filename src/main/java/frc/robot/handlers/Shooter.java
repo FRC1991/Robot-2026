@@ -4,17 +4,21 @@
 
 package frc.robot.handlers;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.S_Shooter;
+import frc.robot.subsystems.S_Swerve;
 import frc.utils.Utils.ElasticUtil;
 
 public class Shooter extends SubsystemBase implements StateSubsystem {
   private ShooterStates desiredState, currentState = ShooterStates.IDLE;
   private S_Shooter shooter = S_Shooter.getInstance();
+
+  private InterpolatingDoubleTreeMap shootMap;
 
   private static Shooter m_Instance;
 
@@ -23,6 +27,9 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
   /** Creates a new Shooter. */
   private Shooter() {
     ElasticUtil.putDouble("Index Speed", () -> indexSpeed);
+
+    // TODO: FIND VALUES AND ADD WITH .put()
+    shootMap = new InterpolatingDoubleTreeMap();
   }
 
   public static Shooter getInstance() {
@@ -53,6 +60,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
         break;
 
       case SHOOTING:
+      case PASSING:
         CommandScheduler.getInstance().schedule(
           new WaitCommand(0.5)
             .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
@@ -79,6 +87,11 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
         break;
 
       case SHOOTING:
+        shooter.set(shootMap.get(S_Swerve.getInstance().getDistToHub()), indexSpeed);
+
+        break;
+
+      case PASSING:
         shooter.set(ShooterConstants.SHOOTER_SPEED, indexSpeed);
 
         break;
@@ -105,6 +118,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
   public enum ShooterStates implements State {
     IDLE,
     BROKEN,
-    SHOOTING;
+    SHOOTING,
+    PASSING;
   }
 }

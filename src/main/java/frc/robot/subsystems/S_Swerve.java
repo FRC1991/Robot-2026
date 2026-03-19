@@ -5,19 +5,26 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.CANConstants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.CheckableSubsystem;
+import frc.utils.LimelightHelpers;
 import frc.utils.Utils.ElasticUtil;
 
 public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
@@ -81,6 +88,40 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
 
   public Pose2d getPose() {
     return m_poseEstimator.getEstimatedPosition();
+  }
+
+  public Translation2d getTargetHub() {
+    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+      return FieldConstants.BLUE_HUB_LOC;
+    } else {
+      return FieldConstants.RED_HUB_LOC;
+    }
+  }
+
+  public double getDistToHub() {
+    return getPose().getTranslation().getDistance(getTargetHub());
+  }
+
+  public double getAngleToHub() {
+    Translation2d difference = getPose().getTranslation().minus(getTargetHub());
+
+    return Math.atan((Math.abs(difference.getX()) / Math.abs(difference.getY())));
+  }
+
+  public double getAngleToBump() {
+    Translation2d targetBump;
+
+    boolean pastHalfway = getPose().getY() >= FieldConstants.FIELD_HALF_METERS;
+
+    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+      targetBump = pastHalfway ? FieldConstants.BLUE_LEFT_BUMP_LOC : FieldConstants.BLUE_RIGHT_BUMP_LOC;
+    } else {
+      targetBump = pastHalfway ? FieldConstants.RED_RIGHT_BUMP_LOC : FieldConstants.RED_LEFT_BUMP_LOC;
+    }
+
+    Translation2d difference = getPose().getTranslation().minus(targetBump);
+
+    return Math.atan((Math.abs(difference.getX()) / Math.abs(difference.getY())));
   }
 
   public void resetPoseEstimator(Pose2d pose) {
@@ -175,15 +216,26 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
     return MathUtil.inputModulus(m_gyro.getYaw().getValueAsDouble(), 0, 360);
   }
 
+  public AbsoluteEncoder getTurretEncoder() {
+    return m_backLeft.getAbsoluteEncoder();
+  }
+
   public void updatePoseEstimator() {
     m_poseEstimator.update(
-      Rotation2d.fromDegrees(getHeading()),
+      m_gyro.getRotation2d(),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
         m_backLeft.getPosition(),
         m_backRight.getPosition()
       });
+
+    LimelightHelpers.SetRobotOrientation(Constants.LIMELIGHT_NAME, m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+      0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LIMELIGHT_NAME);
+
+    m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+    m_poseEstimator.addVisionMeasurement(poseEstimate.pose, poseEstimate.timestampSeconds);
   }
 
   @Override

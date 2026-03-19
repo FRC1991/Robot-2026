@@ -4,7 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
@@ -14,13 +15,13 @@ import frc.utils.Utils;
 public class S_Hopper extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
 
-  private TalonFX motor;
+  private SparkMax motor;
 
   private static S_Hopper m_Instance;
   
   /** Creates a new S_Spindexer. */
   private S_Hopper() {
-    motor = new TalonFX(CANConstants.HOPPER_ID);
+    motor = new SparkMax(CANConstants.HOPPER_ID, MotorType.kBrushless);
 
     initialized = true;
   }

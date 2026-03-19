@@ -7,20 +7,26 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
+import frc.utils.Utils.ElasticUtil;
 
 public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
   private SparkMax motor;
+
+  private PIDController posController;
   
   private static S_Slider m_Instance;
   
   /** Creates a new S_IPivot. */
   private S_Slider() {
     motor = new SparkMax(99996, MotorType.kBrushless);
+
+    ElasticUtil.putDouble("Slider Position", motor.getEncoder()::getPosition);
 
     initialized = true;
   }
@@ -33,7 +39,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
     return m_Instance;
   }
 
-  public void set(double speed) {
+  public void set(double speed, double setpoint) {
     motor.set(Utils.normalize(speed));
   }
 

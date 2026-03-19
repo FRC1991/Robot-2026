@@ -4,17 +4,24 @@
 
 package frc.robot.handlers;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.S_Flap;
+import frc.robot.subsystems.S_Swerve;
 
 public class Flap extends SubsystemBase implements StateSubsystem {
   private FlapStates desiredState, currentState = FlapStates.IDLE;
   private S_Flap flap = S_Flap.getInstance();
 
+  private InterpolatingDoubleTreeMap angleMap;
+
   private static Flap m_Instance;
 
   /** Creates a new Flap. */
-  private Flap() {}
+  private Flap() {
+    // TODO: FIND VALUES AND ADD WITH .put()
+    angleMap = new InterpolatingDoubleTreeMap();
+  }
 
   public static Flap getInstance() {
     if(m_Instance == null) {
@@ -41,6 +48,10 @@ public class Flap extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case MOVING:
+
+        break;
+
       default:
       
         break;
@@ -54,6 +65,11 @@ public class Flap extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
+
+        break;
+
+      case MOVING:
+        flap.set(angleMap.get(S_Swerve.getInstance().getDistToHub()));
 
         break;
 
@@ -78,6 +94,7 @@ public class Flap extends SubsystemBase implements StateSubsystem {
 
   public enum FlapStates implements State {
     IDLE,
-    BROKEN;
+    BROKEN,
+    MOVING;
   }
 }

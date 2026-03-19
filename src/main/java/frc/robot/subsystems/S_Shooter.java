@@ -55,8 +55,6 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
   public void set(double shootSpeed, double indexSpeed) {
     shootMotor.set(Utils.normalize(shootSpeed));
     indexMotor.set(Utils.normalize(indexSpeed));
-  
-    // System.out.println(shootMotor.getVelocity().getValueAsDouble());
   }
 
   @Override
