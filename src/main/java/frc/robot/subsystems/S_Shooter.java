@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-// import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
@@ -20,25 +18,20 @@ import frc.utils.Utils;
 public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
-  private TalonFX shootMotor;
+  private SparkMax shootMotor1;
+  private SparkMax shootMotor2;
+
   private SparkMax indexMotor;
   
   private static S_Shooter m_Instance;
   
   /** Creates a new S_Shooter. */
   private S_Shooter() {
-    shootMotor = new TalonFX(CANConstants.SHOOTER_ID);
+    shootMotor1 = new SparkMax(CANConstants.SHOOTER_ID_ONE, MotorType.kBrushless);
+    shootMotor2 = new SparkMax(CANConstants.SHOOTER_ID_TWO, MotorType.kBrushless);
+
     indexMotor = new SparkMax(CANConstants.INDEXER_ID, MotorType.kBrushless);
 
-    // TalonFXConfiguration shootMotorConfig = new TalonFXConfiguration();
-
-    // shootMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent = 80.0;
-    // shootMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent = -80.0;
-    // shootMotorConfig.Slot0.kP = 0.1;
-    // shootMotorConfig.Slot0.kI = 0;
-    // shootMotorConfig.Slot0.kD = 0;
-
-    shootMotor.getConfigurator().apply(Constants.KRAKEN_CONFIG);
     indexMotor.configure(Constants.NEO_CONFIG, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     initialized = true;
@@ -52,14 +45,16 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     return m_Instance;
   }
 
-  public void set(double shootSpeed, double indexSpeed) {
-    shootMotor.set(Utils.normalize(shootSpeed));
+  public void set(double shootSpeed1, double shootSpeed2, double indexSpeed) {
+    shootMotor1.set(Utils.normalize(shootSpeed1));
+    shootMotor2.set(Utils.normalize(shootSpeed2));
     indexMotor.set(Utils.normalize(indexSpeed));
   }
 
   @Override
   public void stop() {
-    shootMotor.stopMotor();
+    shootMotor1.stopMotor();
+    shootMotor2.stopMotor();
     indexMotor.stopMotor();
   }
 

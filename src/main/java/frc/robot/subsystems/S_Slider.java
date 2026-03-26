@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CANConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 import frc.utils.Utils.ElasticUtil;
@@ -24,7 +25,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   
   /** Creates a new S_IPivot. */
   private S_Slider() {
-    motor = new SparkMax(99996, MotorType.kBrushless);
+    motor = new SparkMax(CANConstants.SLIDER_ID, MotorType.kBrushless);
 
     ElasticUtil.putDouble("Slider Position", motor.getEncoder()::getPosition);
 

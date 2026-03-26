@@ -18,7 +18,8 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
   private ShooterStates desiredState, currentState = ShooterStates.IDLE;
   private S_Shooter shooter = S_Shooter.getInstance();
 
-  private InterpolatingDoubleTreeMap shootMap;
+  private InterpolatingDoubleTreeMap shootMap1;
+  private InterpolatingDoubleTreeMap shootMap2;
 
   private static Shooter m_Instance;
 
@@ -29,7 +30,9 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     ElasticUtil.putDouble("Index Speed", () -> indexSpeed);
 
     // TODO: FIND VALUES AND ADD WITH .put()
-    shootMap = new InterpolatingDoubleTreeMap();
+    shootMap1 = new InterpolatingDoubleTreeMap();
+
+    shootMap2 = new InterpolatingDoubleTreeMap();
   }
 
   public static Shooter getInstance() {
@@ -87,12 +90,12 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
         break;
 
       case SHOOTING:
-        shooter.set(shootMap.get(S_Swerve.getInstance().getDistToHub()), indexSpeed);
+        shooter.set(shootMap1.get(S_Swerve.getInstance().getDistToHub()), shootMap2.get(S_Swerve.getInstance().getDistToHub()), indexSpeed);
 
         break;
 
       case PASSING:
-        shooter.set(ShooterConstants.SHOOTER_SPEED, indexSpeed);
+        shooter.set(ShooterConstants.SHOOTER_SPEED, ShooterConstants.SHOOTER_SPEED, indexSpeed);
 
         break;
 

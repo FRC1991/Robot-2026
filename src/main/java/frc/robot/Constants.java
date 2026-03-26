@@ -71,24 +71,16 @@ public final class Constants {
 
     public static final int GYRO_ID = 10;
 
-    // These are for the motors that power the elevator for the climber
-    public static final int CLIMBER_ONE_ID = 11;
-    public static final int CLIMBER_TWO_ID = 12;
+    public static final int SHOOTER_ID_ONE = 11;
+    public static final int SHOOTER_ID_TWO = 12;
 
-    // These are for the motors that power the hooks on the climber
-    public static final int HOOK_ONE_ID = 13;
-    public static final int HOOK_TWO_ID = 14;
+    public static final int INDEXER_ID = 13;
 
-    public static final int SHOOTER_ID = 15;
-    public static final int INDEXER_ID = 16;
+    public static final int HOPPER_ID = 14;
 
-    public static final int HOPPER_ID = 17;
+    public static final int INTAKE_ID = 15;
 
-    public static final int FLAP_ID = 18;
-
-    public static final int TURRET_ID = 19;
-
-    public static final int INTAKE_ID = 20;
+    public static final int SLIDER_ID = 16;
 
     // Encoder channels for each swerve module
     public static final int FRONT_LEFT_ENCODER_CHANNEL = 3;
