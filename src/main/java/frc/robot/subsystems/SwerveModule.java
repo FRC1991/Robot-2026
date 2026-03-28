@@ -102,8 +102,8 @@ public class SwerveModule implements CheckableSubsystem {
     public double getEncoderRadians() {
         // if(m_turningEncoder.getChannel() == channelToRead) { System.out.println(MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI + m_chassisAngularOffset)); }
 
-        // return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI + m_chassisAngularOffset);
-        return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI);
+        return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI - m_chassisAngularOffset);
+        // return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI);
 
         // return MathUtil.angleModulus(m_turningEncoder.get());
     }
@@ -121,7 +121,7 @@ public class SwerveModule implements CheckableSubsystem {
         correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
         correctedDesiredState.angle = desiredState.angle;
 
-        correctedDesiredState.angle = correctedDesiredState.angle.minus(Rotation2d.fromRadians(m_chassisAngularOffset));
+        // correctedDesiredState.angle = correctedDesiredState.angle.minus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
         correctedDesiredState.optimize(new Rotation2d(getEncoderRadians()));
 

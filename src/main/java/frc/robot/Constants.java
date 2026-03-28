@@ -135,11 +135,11 @@ public final class Constants {
     // public static final double BACK_LEFT_CHASSIS_OFFSET = -2.5620509496572756 + 2.0431213399522994 + (Math.PI);
     // public static final double BACK_RIGHT_CHASSIS_OFFSET = -1.7256124229364254 + 0.49141560343255075 + (Math.PI);
 
-    public static final double FRONT_LEFT_CHASSIS_OFFSET = 0;
-    public static final double FRONT_RIGHT_CHASSIS_OFFSET = 0;
+    public static final double FRONT_LEFT_CHASSIS_OFFSET = 0.9270997038300972;
+    public static final double FRONT_RIGHT_CHASSIS_OFFSET = 2.6354094568666446;
 
-    public static final double BACK_LEFT_CHASSIS_OFFSET = 0;
-    public static final double BACK_RIGHT_CHASSIS_OFFSET = 0;
+    public static final double BACK_LEFT_CHASSIS_OFFSET = -2.656949091930007;
+    public static final double BACK_RIGHT_CHASSIS_OFFSET = -1.8354411901614043;
 
     // Whether or not the gyro is reversed (angle)
     public static final boolean GYRO_REVERSED = false;
