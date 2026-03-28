@@ -37,7 +37,8 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    posController = new PIDController(0.01, 0, 0);
+    posController = new PIDController(0.005, 0, 0);
+    posController.setTolerance(5);
 
     ElasticUtil.putDouble("Slider Position", motor.getEncoder()::getPosition);
 

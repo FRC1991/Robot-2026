@@ -135,13 +135,13 @@ public final class Constants {
 
   public static abstract class ShooterConstants {
     public static final double INDEXER_SPEED = -0.8;
-    public static final double SHOOTER_SPEED = 0.35;
+    public static final double SHOOTER_SPEED = 0.33;
     public static final double PASSING_SPEED = 0.75;
   }
 
   public static abstract class SliderConstants {
-    public static final double HOME_POSITION = 0;
-    public static final double INTAKING_POSITION = -62;
+    public static final double HOME_POSITION = -2;
+    public static final double INTAKING_POSITION = -65;
   }
 
   public static abstract class HopperConstants {
