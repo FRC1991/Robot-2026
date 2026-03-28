@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
@@ -22,6 +26,12 @@ public class S_Hopper extends SubsystemBase implements CheckableSubsystem {
   /** Creates a new S_Spindexer. */
   private S_Hopper() {
     motor = new SparkMax(CANConstants.HOPPER_ID, MotorType.kBrushless);
+
+    SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kCoast);
+
+    motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     initialized = true;
   }

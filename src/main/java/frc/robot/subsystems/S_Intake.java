@@ -5,6 +5,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,6 +26,12 @@ public class S_Intake extends SubsystemBase implements CheckableSubsystem {
   /** Creates a new S_Intake. */
   private S_Intake() {
     motor = new SparkMax(CANConstants.INTAKE_ID, MotorType.kBrushless);
+
+    SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    motorConfig.smartCurrentLimit(30).idleMode(IdleMode.kBrake);
+
+    motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     initialized = true;
   }

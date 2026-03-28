@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,9 +27,15 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   
   private static S_Slider m_Instance;
   
-  /** Creates a new S_IPivot. */
+  /** Creates a new S_Slider. */
   private S_Slider() {
     motor = new SparkMax(CANConstants.SLIDER_ID, MotorType.kBrushless);
+
+    SparkMaxConfig motorConfig = new SparkMaxConfig();
+
+    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kBrake);
+
+    motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     ElasticUtil.putDouble("Slider Position", motor.getEncoder()::getPosition);
 
