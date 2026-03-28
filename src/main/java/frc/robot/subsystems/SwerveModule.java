@@ -73,6 +73,13 @@ public class SwerveModule implements CheckableSubsystem {
             .idleMode(IdleMode.kBrake)
             .smartCurrentLimit(40);
 
+        if(encoderChannel == 2) {
+            drivingConfig.TorqueCurrent.PeakForwardTorqueCurrent = 1.0;
+            drivingConfig.TorqueCurrent.PeakReverseTorqueCurrent = -1.0;
+
+            turningConfig.smartCurrentLimit(1);
+        }
+
         driveMotor.getConfigurator().apply(drivingConfig, 0.1);
         driveMotor.optimizeBusUtilization(0, 0.1);
 
