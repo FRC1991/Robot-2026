@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.handlers.Hopper;
+import frc.robot.handlers.Intake;
 import frc.robot.handlers.Manager;
 import frc.robot.handlers.Swerve;
 import frc.robot.handlers.Swerve.SwerveStates;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.S_Swerve;
 import frc.utils.Utils.ElasticUtil;
 import frc.robot.handlers.Manager.ManagerStates;
 import frc.robot.handlers.Shooter;
+import frc.robot.handlers.Slider;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -69,6 +71,8 @@ public class RobotContainer {
     ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
     ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
     ElasticUtil.putString("Hopper State", () -> Hopper.getInstance().getState().toString());
+    ElasticUtil.putString("Intake State", () -> Intake.getInstance().getState().toString());
+    ElasticUtil.putString("Slider State", () -> Slider.getInstance().getState().toString());
   }
 
   /**

@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANConstants;
+import frc.robot.Constants.SliderConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
 import frc.utils.Utils.ElasticUtil;
@@ -40,6 +41,8 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
     posController = new PIDController(0.005, 0, 0);
     posController.setTolerance(5);
 
+    motor.getEncoder().setPosition(0);
+
     ElasticUtil.putDouble("Slider Position", motor.getEncoder()::getPosition);
 
     initialized = true;
@@ -54,7 +57,9 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   }
 
   public void set(double setpoint) {
-    motor.set(Utils.normalize(posController.calculate(motor.getEncoder().getPosition(), setpoint)));
+    if(motor.getEncoder().getPosition() >= SliderConstants.INTAKING_POSITION && motor.getEncoder().getPosition() <= SliderConstants.HOME_POSITION) {
+      motor.set(Utils.normalize(posController.calculate(motor.getEncoder().getPosition(), setpoint)));
+    }
   }
 
   @Override

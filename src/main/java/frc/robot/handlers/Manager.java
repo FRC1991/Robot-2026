@@ -99,7 +99,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case DRIVING:
         Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        Slider.getInstance().setDesiredState(SliderStates.IDLE);
+        Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
         Hopper.getInstance().setDesiredState(HopperStates.IDLE);
 
@@ -107,7 +107,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case SHOOTING:
         Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // Slider.getInstance().setDesiredState(SliderStates.HOME);
+        Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
@@ -115,7 +115,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case PASSING:
         Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // Slider.getInstance().setDesiredState(SliderStates.HOME);
+        Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.PASSING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
@@ -123,13 +123,13 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
       case BACKSPINNING:
         Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // Slider.getInstance().setDesiredState(SliderStates.HOME);
+        Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.BACKSPINNING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
       case INTAKING:
         Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
-        // Slider.getInstance().setDesiredState(SliderStates.INTAKING);
+        Slider.getInstance().setDesiredState(SliderStates.INTAKING);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
         Hopper.getInstance().setDesiredState(HopperStates.IDLE);
 
