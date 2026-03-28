@@ -114,6 +114,8 @@ public class SwerveModule implements CheckableSubsystem {
 
         correctedDesiredState.optimize(new Rotation2d(getEncoderRadians()));
 
+        if(m_turningEncoder.getChannel() == 2) { System.out.println(getEncoderDegrees()); }
+
         driveMotor.set(Utils.normalize(correctedDesiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED_METERS_PER_SECOND));
 
         double error = azimuth.calculate(getEncoderDegrees(), correctedDesiredState.angle.getDegrees());

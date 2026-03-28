@@ -5,6 +5,7 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.HopperConstants;
 import frc.robot.subsystems.S_Hopper;
 
 public class Hopper extends SubsystemBase implements StateSubsystem {
@@ -42,6 +43,7 @@ public class Hopper extends SubsystemBase implements StateSubsystem {
         break;
 
       case RUNNING:
+        hopper.set(HopperConstants.HOPPER_SPEED);
 
         break;
 

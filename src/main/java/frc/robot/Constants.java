@@ -56,18 +56,18 @@ public final class Constants {
 
   public static abstract class CANConstants {
     // Driving motor CAN ids
-    public static final int FRONT_LEFT_DRIVING_ID = 5;
-    public static final int FRONT_RIGHT_DRIVING_ID = 2;
+    public static final int FRONT_LEFT_DRIVING_ID = 2;
+    public static final int FRONT_RIGHT_DRIVING_ID = 3;
 
-    public static final int BACK_RIGHT_DRIVING_ID = 3;
-    public static final int BACK_LEFT_DRIVING_ID = 4;
+    public static final int BACK_RIGHT_DRIVING_ID = 4;
+    public static final int BACK_LEFT_DRIVING_ID = 5;
 
     // Turning motor CAN ids
-    public static final int FRONT_LEFT_TURNING_ID = 9;
-    public static final int FRONT_RIGHT_TURNING_ID = 6;
+    public static final int FRONT_LEFT_TURNING_ID = 6;
+    public static final int FRONT_RIGHT_TURNING_ID = 8;
 
     public static final int BACK_RIGHT_TURNING_ID = 7;
-    public static final int BACK_LEFT_TURNING_ID = 8;
+    public static final int BACK_LEFT_TURNING_ID = 9;
 
     public static final int GYRO_ID = 10;
 
@@ -83,10 +83,10 @@ public final class Constants {
     public static final int SLIDER_ID = 16;
 
     // Encoder channels for each swerve module
-    public static final int FRONT_LEFT_ENCODER_CHANNEL = 3;
-    public static final int FRONT_RIGHT_ENCODER_CHANNEL = 0;
+    public static final int FRONT_LEFT_ENCODER_CHANNEL = 0;
+    public static final int FRONT_RIGHT_ENCODER_CHANNEL = 1;
 
-    public static final int BACK_RIGHT_ENCODER_CHANNEL = 1;
+    public static final int BACK_RIGHT_ENCODER_CHANNEL = 3;
     public static final int BACK_LEFT_ENCODER_CHANNEL = 2;
   }
 
@@ -134,12 +134,17 @@ public final class Constants {
   }
 
   public static abstract class ShooterConstants {
-    public static final double INDEXER_SPEED = 0.8;
-    public static final double SHOOTER_SPEED = 0.55;
+    public static final double INDEXER_SPEED = -0.8;
+    public static final double SHOOTER_SPEED = 0.4;
+    public static final double PASSING_SPEED = 0.75;
   }
 
   public static abstract class SliderConstants {
     public static final double HOME_POSITION = 0;
     public static final double INTAKING_POSITION = 0;
+  }
+
+  public static abstract class HopperConstants {
+    public static final double HOPPER_SPEED = 0.5;
   }
 }

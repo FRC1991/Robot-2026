@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.handlers.Hopper;
 import frc.robot.handlers.Manager;
 import frc.robot.handlers.Swerve;
 import frc.robot.handlers.Swerve.SwerveStates;
@@ -27,7 +28,7 @@ import frc.robot.handlers.Shooter;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private boolean useShootAuto = true;
+  private boolean useShootAuto = false;
   
   public RobotContainer() {
     configureBindings();
@@ -46,17 +47,15 @@ public class RobotContainer {
   private void configureBindings() {
     Manager.getInstance().bindState(OI.auxController.rightBumper(), ManagerStates.SHOOTING, ManagerStates.DRIVING);
 
-    // Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
+
+    Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.BACKSPINNING, ManagerStates.DRIVING);
 
     // Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
     // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
-    // Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.CLIMBING, ManagerStates.DRIVING);
-
-    // Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.LOWERING, ManagerStates.DRIVING);
-
-    // Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
+    Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.x(), SwerveStates.LOCKED, SwerveStates.DRIVING);
 
@@ -69,6 +68,7 @@ public class RobotContainer {
 
     ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
     ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
+    ElasticUtil.putString("Hopper State", () -> Hopper.getInstance().getState().toString());
   }
 
   /**

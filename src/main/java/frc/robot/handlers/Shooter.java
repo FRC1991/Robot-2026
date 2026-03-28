@@ -64,6 +64,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
       case SHOOTING:
       case PASSING:
+      case BACKSPINNING:
         CommandScheduler.getInstance().schedule(
           new WaitCommand(0.5)
             .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
@@ -90,14 +91,19 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
         break;
 
       case SHOOTING:
-        shooter.set(shootMap1.get(S_Swerve.getInstance().getDistToHub()), shootMap2.get(S_Swerve.getInstance().getDistToHub()), indexSpeed);
+        // shooter.set(shootMap1.get(S_Swerve.getInstance().getDistToHub()), shootMap2.get(S_Swerve.getInstance().getDistToHub()), indexSpeed);
+        shooter.set(ShooterConstants.SHOOTER_SPEED, -ShooterConstants.SHOOTER_SPEED, indexSpeed);
 
         break;
 
       case PASSING:
-        shooter.set(ShooterConstants.SHOOTER_SPEED, ShooterConstants.SHOOTER_SPEED, indexSpeed);
+        // shooter.set(ShooterConstants.SHOOTER_SPEED, -ShooterConstants.SHOOTER_SPEED, indexSpeed);
+        shooter.set(0, -ShooterConstants.PASSING_SPEED, indexSpeed);
 
         break;
+
+      case BACKSPINNING:
+        shooter.set(0.5, -0.3, indexSpeed);
 
       default:
 
@@ -122,6 +128,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     IDLE,
     BROKEN,
     SHOOTING,
-    PASSING;
+    PASSING,
+    BACKSPINNING;
   }
 }
