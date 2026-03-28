@@ -117,11 +117,29 @@ public final class Constants {
       new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
 
     // Offsets for each swerve module
-    public static final double FRONT_LEFT_CHASSIS_OFFSET = (Math.PI - 0.505) - (Math.PI / 2); // GOOD
-    public static final double FRONT_RIGHT_CHASSIS_OFFSET = (-(Math.PI / 2) + (Math.PI / 3) - 0.385) - (Math.PI / 2); // GOOD
+    // public static final double FRONT_LEFT_CHASSIS_OFFSET = (Math.PI - 0.505) - (Math.PI / 2); // GOOD
+    // public static final double FRONT_RIGHT_CHASSIS_OFFSET = (-(Math.PI / 2) + (Math.PI / 3) - 0.385) - (Math.PI / 2); // GOOD
 
-    public static final double BACK_LEFT_CHASSIS_OFFSET = (-(Math.PI + (Math.PI / 3)) - 0.305) - (Math.PI / 2); // GOOD
-    public static final double BACK_RIGHT_CHASSIS_OFFSET = (Math.PI + (Math.PI / 3) - 0.525) - (Math.PI / 2); // GOOD
+    // public static final double BACK_LEFT_CHASSIS_OFFSET = (-(Math.PI + (Math.PI / 3)) - 0.305) - (Math.PI / 2); // GOOD
+    // public static final double BACK_RIGHT_CHASSIS_OFFSET = (Math.PI + (Math.PI / 3) - 0.525) - (Math.PI / 2); // GOOD
+
+    // public static final double FRONT_LEFT_CHASSIS_OFFSET = (Math.PI - 0.505) - (Math.PI / 2) - (Math.PI / 6); // GOOD
+    // public static final double FRONT_RIGHT_CHASSIS_OFFSET = (-(Math.PI / 2) + (Math.PI / 3) - 0.385); // GOOD
+
+    // public static final double BACK_LEFT_CHASSIS_OFFSET = (-(Math.PI + (Math.PI / 3)) - 0.305) - (Math.PI / 2) + (Math.PI / 6) + (Math.PI); // GOOD
+    // public static final double BACK_RIGHT_CHASSIS_OFFSET = (Math.PI + (Math.PI / 6) - 0.525); // GOOD
+
+    // public static final double FRONT_LEFT_CHASSIS_OFFSET = 1.0010478294400034 + (Math.PI) + 1.304678363164319;
+    // public static final double FRONT_RIGHT_CHASSIS_OFFSET = 2.6267612776665614 + 1.0397680112292846 + (Math.PI);
+
+    // public static final double BACK_LEFT_CHASSIS_OFFSET = -2.5620509496572756 + 2.0431213399522994 + (Math.PI);
+    // public static final double BACK_RIGHT_CHASSIS_OFFSET = -1.7256124229364254 + 0.49141560343255075 + (Math.PI);
+
+    public static final double FRONT_LEFT_CHASSIS_OFFSET = 0;
+    public static final double FRONT_RIGHT_CHASSIS_OFFSET = 0;
+
+    public static final double BACK_LEFT_CHASSIS_OFFSET = 0;
+    public static final double BACK_RIGHT_CHASSIS_OFFSET = 0;
 
     // Whether or not the gyro is reversed (angle)
     public static final boolean GYRO_REVERSED = false;
@@ -135,16 +153,20 @@ public final class Constants {
 
   public static abstract class ShooterConstants {
     public static final double INDEXER_SPEED = -0.8;
-    public static final double SHOOTER_SPEED = 0.4;
+    public static final double SHOOTER_SPEED = 0.35;
     public static final double PASSING_SPEED = 0.75;
   }
 
   public static abstract class SliderConstants {
     public static final double HOME_POSITION = 0;
-    public static final double INTAKING_POSITION = 0;
+    public static final double INTAKING_POSITION = -62;
   }
 
   public static abstract class HopperConstants {
     public static final double HOPPER_SPEED = 0.5;
+  }
+
+  public static abstract class IntakeConstants {
+    public static final double INTAKE_SPEED = -1.0;
   }
 }

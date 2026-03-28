@@ -29,7 +29,7 @@ public class S_Intake extends SubsystemBase implements CheckableSubsystem {
 
     SparkMaxConfig motorConfig = new SparkMaxConfig();
 
-    motorConfig.smartCurrentLimit(30).idleMode(IdleMode.kBrake);
+    motorConfig.smartCurrentLimit(40).idleMode(IdleMode.kBrake);
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 

@@ -4,17 +4,23 @@
 
 package frc.robot.handlers;
 
+import org.ejml.interfaces.decomposition.SingularValueDecomposition;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.handlers.Hopper.HopperStates;
+import frc.robot.handlers.Intake.IntakeStates;
 // // import frc.robot.handlers.Intake.IntakeStates;
 import frc.robot.handlers.Shooter.ShooterStates;
+import frc.robot.handlers.Slider.SliderStates;
 import frc.robot.subsystems.S_Hopper;
+import frc.robot.subsystems.S_Intake;
 // // import frc.robot.handlers.Turret.TurretStates;
 // import frc.robot.subsystems.S_Intake;
 import frc.robot.subsystems.S_Shooter;
 // import frc.robot.subsystems.S_Turret;
+import frc.robot.subsystems.S_Slider;
 
 public class Manager extends SubsystemBase implements CheckableSubsystem, StateSubsystem {
   private boolean initialized = false, status = false;
@@ -23,18 +29,22 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   
   private ManagerStates desiredState, currentState = ManagerStates.IDLE;
 
-  // private S_Intake intake = S_Intake.getInstance();
+  private S_Intake intake = S_Intake.getInstance();
+  private S_Slider slider = S_Slider.getInstance();
   private S_Shooter shooter = S_Shooter.getInstance();
   private S_Hopper hopper = S_Hopper.getInstance();
   
   /** Creates a new Manager. */
   private Manager() {
-    // Intake.getInstance();
+    Intake.getInstance();
+    Slider.getInstance();
     Shooter.getInstance();
     Hopper.getInstance();
     
-    // initialized &= intake.getInitialized();
-    initialized = shooter.getInitialized();
+    initialized = intake.getInitialized();
+    initialized &= slider.getInitialized();
+    initialized &= shooter.getInitialized();
+    initialized &= hopper.getInitialized();
   }
 
   public static Manager getInstance() {
@@ -47,8 +57,10 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   @Override
   public void stop() {
-    // intake.stop();
+    intake.stop();
+    slider.stop();
     shooter.stop();
+    hopper.stop();
   }
 
   @Override
@@ -58,8 +70,10 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
   @Override
   public boolean checkSubsystem() {
-    // status &= intake.checkSubsystem();
-    status = shooter.checkSubsystem();
+    status = intake.checkSubsystem();
+    status &= slider.checkSubsystem();
+    status &= shooter.checkSubsystem();
+    status &= hopper.checkSubsystem();
 
     return status;
   }
@@ -76,54 +90,55 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
   public void handleStateTransition() {
     switch(desiredState) {
       case IDLE:
-        // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // IPivot.getInstance().setDesiredState(IPivotStates.IDLE);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        Slider.getInstance().setDesiredState(SliderStates.IDLE);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
         Hopper.getInstance().setDesiredState(HopperStates.IDLE);
 
         break;
 
       case DRIVING:
-        // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        Slider.getInstance().setDesiredState(SliderStates.IDLE);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
         Hopper.getInstance().setDesiredState(HopperStates.IDLE);
 
         break;
 
       case SHOOTING:
-        // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        // Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
         break;
 
       case PASSING:
-        // Intake.getInstance().setDesiredState(IntakeStates.IDLE);
-        // IPivot.getInstance().setDesiredState(IPivotStates.HOME);
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        // Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.PASSING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
         break;
 
       case BACKSPINNING:
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        // Slider.getInstance().setDesiredState(SliderStates.HOME);
         Shooter.getInstance().setDesiredState(ShooterStates.BACKSPINNING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
       case INTAKING:
-        // Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
-        // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
+        Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
+        // Slider.getInstance().setDesiredState(SliderStates.INTAKING);
         Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Hopper.getInstance().setDesiredState(HopperStates.IDLE);
 
         break;
 
-      case OUTTAKING:
-        // Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
-        // IPivot.getInstance().setDesiredState(IPivotStates.INTAKING);
-        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+      // case OUTTAKING:
+      //   Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
 
-        break;
+      //   break;
       
       default:
 
@@ -146,7 +161,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       case PASSING:
       case BACKSPINNING:
       case INTAKING:
-      case OUTTAKING:
+      // case OUTTAKING:
       
         break;
 

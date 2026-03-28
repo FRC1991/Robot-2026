@@ -33,9 +33,11 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
 
     SparkMaxConfig motorConfig = new SparkMaxConfig();
 
-    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kBrake);
+    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kCoast);
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    posController = new PIDController(0.01, 0, 0);
 
     ElasticUtil.putDouble("Slider Position", motor.getEncoder()::getPosition);
 
@@ -50,8 +52,8 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
     return m_Instance;
   }
 
-  public void set(double speed, double setpoint) {
-    motor.set(Utils.normalize(speed));
+  public void set(double setpoint) {
+    motor.set(Utils.normalize(posController.calculate(motor.getEncoder().getPosition(), setpoint)));
   }
 
   @Override

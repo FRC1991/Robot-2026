@@ -25,6 +25,7 @@ import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.CheckableSubsystem;
 import frc.utils.Utils;
+import frc.utils.Utils.ElasticUtil;
 
 /** Add your docs here. */
 public class SwerveModule implements CheckableSubsystem {
@@ -39,6 +40,8 @@ public class SwerveModule implements CheckableSubsystem {
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
     private PIDController azimuth;
+
+    private int channelToRead = 0;
 
     public SwerveModule(int drivingCANId, int turningCANId, int encoderChannel, double chassisAngularOffset) {
         driveMotor = new TalonFX(drivingCANId);
@@ -80,6 +83,8 @@ public class SwerveModule implements CheckableSubsystem {
         
         driveMotor.setPosition(0);
 
+        ElasticUtil.putDouble(m_turningEncoder.getChannel() + " Channel Encoder Pos", () -> getEncoderRadians());
+
         initialized = true;
     }
 
@@ -95,7 +100,11 @@ public class SwerveModule implements CheckableSubsystem {
     }
 
     public double getEncoderRadians() {
-        return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI + m_chassisAngularOffset);
+        // if(m_turningEncoder.getChannel() == channelToRead) { System.out.println(MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI + m_chassisAngularOffset)); }
+
+        // return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI + m_chassisAngularOffset);
+        return MathUtil.angleModulus(m_turningEncoder.get() * 2 * Math.PI);
+
         // return MathUtil.angleModulus(m_turningEncoder.get());
     }
 
@@ -112,9 +121,15 @@ public class SwerveModule implements CheckableSubsystem {
         correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
         correctedDesiredState.angle = desiredState.angle;
 
+        correctedDesiredState.angle = correctedDesiredState.angle.minus(Rotation2d.fromRadians(m_chassisAngularOffset));
+
         correctedDesiredState.optimize(new Rotation2d(getEncoderRadians()));
 
-        if(m_turningEncoder.getChannel() == 2) { System.out.println(getEncoderDegrees()); }
+        System.out.println(m_turningEncoder.getChannel() + " > " + correctedDesiredState.angle.getRadians());
+
+        System.out.println(m_turningEncoder.getChannel() + " : " + getEncoderRadians());
+
+        // if(m_turningEncoder.getChannel() == channelToRead) { System.out.println(getEncoderRadians()); }
 
         driveMotor.set(Utils.normalize(correctedDesiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED_METERS_PER_SECOND));
 

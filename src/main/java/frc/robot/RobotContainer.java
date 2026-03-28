@@ -28,7 +28,7 @@ import frc.robot.handlers.Shooter;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private boolean useShootAuto = false;
+  private boolean useShootAuto = true;
   
   public RobotContainer() {
     configureBindings();
@@ -51,7 +51,7 @@ public class RobotContainer {
 
     Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.BACKSPINNING, ManagerStates.DRIVING);
 
-    // Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.INTAKING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
     // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 

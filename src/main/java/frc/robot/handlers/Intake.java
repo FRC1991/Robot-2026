@@ -5,6 +5,7 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.S_Intake;
 
 public class Intake extends SubsystemBase implements StateSubsystem {
@@ -59,8 +60,12 @@ public class Intake extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
+      // case OUTTAKING:
+
+        break;
+
       case INTAKING:
-      case OUTTAKING:
+        intake.set(IntakeConstants.INTAKE_SPEED);
 
         break;
 

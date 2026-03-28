@@ -5,11 +5,12 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SliderConstants;
 import frc.robot.subsystems.S_Slider;
 
 public class Slider extends SubsystemBase implements StateSubsystem {
-  private IPivotStates desiredState, currentState = IPivotStates.IDLE;
-  private S_Slider iPivot = S_Slider.getInstance();
+  private SliderStates desiredState, currentState = SliderStates.IDLE;
+  private S_Slider slider = S_Slider.getInstance();
 
   private static Slider m_Instance;
   
@@ -27,7 +28,7 @@ public class Slider extends SubsystemBase implements StateSubsystem {
   @Override
   public void setDesiredState(State state) {
     if(desiredState != state) {
-      desiredState = (IPivotStates) state;
+      desiredState = (SliderStates) state;
       handleStateTransition();
     }
   }
@@ -37,12 +38,17 @@ public class Slider extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        iPivot.stop();
+        slider.stop();
 
         break;
 
       case HOME:
+        slider.set(SliderConstants.HOME_POSITION);
+
+        break;
+      
       case INTAKING:
+        slider.set(SliderConstants.INTAKING_POSITION);
 
         break;
 
@@ -69,8 +75,8 @@ public class Slider extends SubsystemBase implements StateSubsystem {
         break;
     }
 
-    if(!iPivot.checkSubsystem()) {
-      setDesiredState(IPivotStates.BROKEN);
+    if(!slider.checkSubsystem()) {
+      setDesiredState(SliderStates.BROKEN);
     }
   }
 
@@ -79,11 +85,11 @@ public class Slider extends SubsystemBase implements StateSubsystem {
     update();
   }
 
-  public IPivotStates getState() {
+  public SliderStates getState() {
     return currentState;
   }
 
-  public enum IPivotStates implements State {
+  public enum SliderStates implements State {
     IDLE,
     BROKEN,
     HOME,
