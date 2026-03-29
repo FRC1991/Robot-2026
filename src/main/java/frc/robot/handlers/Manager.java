@@ -127,6 +127,14 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
         Shooter.getInstance().setDesiredState(ShooterStates.BACKSPINNING);
         Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
 
+        break;
+
+      case SHAKING:
+        Intake.getInstance().setDesiredState(IntakeStates.IDLE);
+        Slider.getInstance().setDesiredState(SliderStates.SHAKING);
+        Shooter.getInstance().setDesiredState(ShooterStates.SHOOTING);
+        Hopper.getInstance().setDesiredState(HopperStates.RUNNING);
+
       case INTAKING:
         Intake.getInstance().setDesiredState(IntakeStates.INTAKING);
         Slider.getInstance().setDesiredState(SliderStates.INTAKING);
@@ -192,6 +200,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
     SHOOTING,
     PASSING,
     BACKSPINNING,
+    SHAKING,
     INTAKING,
     OUTTAKING;
   }

@@ -52,6 +52,10 @@ public class Slider extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case SHAKING:
+
+        break;
+
       default:
 
         break;
@@ -78,6 +82,11 @@ public class Slider extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case SHAKING:  
+        slider.shake();
+
+        break;
+
       default:
 
         break;
@@ -101,6 +110,7 @@ public class Slider extends SubsystemBase implements StateSubsystem {
     IDLE,
     BROKEN,
     HOME,
-    INTAKING;
+    INTAKING,
+    SHAKING;
   }
 }
