@@ -74,6 +74,7 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   /** Creates a new S_Swerve. */
   private S_Swerve() {
     ElasticUtil.putDouble("Gyro Angle", this::getHeading);
+    ElasticUtil.putDouble("Distance to Hub", this::getDistToHub);
 
     setHeading(225);
   }

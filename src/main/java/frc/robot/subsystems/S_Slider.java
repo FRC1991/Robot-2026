@@ -37,7 +37,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
 
     SparkMaxConfig motorConfig = new SparkMaxConfig();
 
-    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kCoast)
+    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kBrake)
       .closedLoop.p(0.04).i(0).d(0);
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

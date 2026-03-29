@@ -60,7 +60,6 @@ public class Intake extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
-      // case OUTTAKING:
 
         break;
 
@@ -68,6 +67,9 @@ public class Intake extends SubsystemBase implements StateSubsystem {
         intake.set(IntakeConstants.INTAKE_SPEED);
 
         break;
+
+      case OUTTAKING:
+        intake.set(-IntakeConstants.INTAKE_SPEED);
 
       default:
       

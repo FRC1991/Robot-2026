@@ -28,6 +28,7 @@ public final class Constants {
   public static final String LIMELIGHT_NAME = "limelight";
 
   public static final double KRAKEN_MAX_SPEED = 0;
+  public static final double NEO_MAX_SPEED = 5600;
 
   public static final TalonFXConfiguration KRAKEN_CONFIG = new TalonFXConfiguration()
     .withTorqueCurrent(new TorqueCurrentConfigs().withPeakForwardTorqueCurrent(80.0).withPeakReverseTorqueCurrent(-80.0))
@@ -135,13 +136,13 @@ public final class Constants {
 
   public static abstract class ShooterConstants {
     public static final double INDEXER_SPEED = -0.8;
-    public static final double SHOOTER_SPEED = 0.33;
-    public static final double PASSING_SPEED = 0.75;
+    public static final double SHOOTER_SPEED = 0.33 * NEO_MAX_SPEED;
+    public static final double PASSING_SPEED = 0.75 * NEO_MAX_SPEED;
   }
 
   public static abstract class SliderConstants {
     public static final double HOME_POSITION = 0;
-    public static final double INTAKING_POSITION = -50;
+    public static final double INTAKING_POSITION = -65;
   }
 
   public static abstract class HopperConstants {

@@ -51,11 +51,11 @@ public class RobotContainer {
 
     Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
 
-    Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.BACKSPINNING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.BACKSPINNING, ManagerStates.DRIVING);
 
     Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
-    // Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 

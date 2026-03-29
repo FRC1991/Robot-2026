@@ -5,6 +5,7 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,9 +25,14 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
   private static Shooter m_Instance;
 
   private double indexSpeed = 0;
+
+  private double shootSpeed1 = 2700, shootSpeed2 = 2700;
   
   /** Creates a new Shooter. */
   private Shooter() {
+    ElasticUtil.putDouble("Shoot One", () -> shootSpeed1, (double speed) -> shootSpeed1 = speed);
+    ElasticUtil.putDouble("Shoot Two", () -> shootSpeed2, (double speed) -> shootSpeed2 = speed);
+
     ElasticUtil.putDouble("Index Speed", () -> indexSpeed);
 
     // TODO: FIND VALUES AND ADD WITH .put()
@@ -56,8 +62,8 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        CommandScheduler.getInstance().cancelAll();
-        indexSpeed = 0;
+        // CommandScheduler.getInstance().cancelAll();
+        // indexSpeed = 0;
         shooter.stop();
 
         break;
@@ -65,12 +71,12 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
       case SHOOTING:
       case PASSING:
       case BACKSPINNING:
-        CommandScheduler.getInstance().schedule(
-          new WaitCommand(0.5)
-            .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
-            .andThen(new WaitCommand(0.25))
-            .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
-        );
+        // CommandScheduler.getInstance().schedule(
+        //   new WaitCommand(0.5)
+        //     .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
+        //     .andThen(new WaitCommand(0.25))
+        //     .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
+        // );
 
         break;
 
@@ -92,13 +98,20 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
       case SHOOTING:
         // shooter.set(shootMap1.get(S_Swerve.getInstance().getDistToHub()), shootMap2.get(S_Swerve.getInstance().getDistToHub()), indexSpeed);
-        shooter.set(ShooterConstants.SHOOTER_SPEED, -ShooterConstants.SHOOTER_SPEED, indexSpeed);
+        // if(DriverStation.isAutonomous()) {
+        //   shooter.set(ShooterConstants.SHOOTER_SPEED * 0.75, -ShooterConstants.SHOOTER_SPEED * 0.75, ShooterConstants.INDEXER_SPEED);
+        // } else {
+        //   shooter.set(ShooterConstants.SHOOTER_SPEED, -ShooterConstants.SHOOTER_SPEED, ShooterConstants.INDEXER_SPEED);
+
+        // }
+
+        shooter.set(shootSpeed1, -shootSpeed2, ShooterConstants.INDEXER_SPEED);
 
         break;
 
       case PASSING:
         // shooter.set(ShooterConstants.SHOOTER_SPEED, -ShooterConstants.SHOOTER_SPEED, indexSpeed);
-        shooter.set(0, -ShooterConstants.PASSING_SPEED, indexSpeed);
+        shooter.set(0, -ShooterConstants.PASSING_SPEED, ShooterConstants.INDEXER_SPEED);
 
         break;
 

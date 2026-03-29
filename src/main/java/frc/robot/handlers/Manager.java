@@ -135,10 +135,13 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
 
         break;
 
-      // case OUTTAKING:
-      //   Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+      case OUTTAKING:
+        Intake.getInstance().setDesiredState(IntakeStates.OUTTAKING);
+        Slider.getInstance().setDesiredState(SliderStates.INTAKING);
+        Shooter.getInstance().setDesiredState(ShooterStates.IDLE);
+        Hopper.getInstance().setDesiredState(HopperStates.OUTTAKING);
 
-      //   break;
+        break;
       
       default:
 
@@ -161,7 +164,7 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
       case PASSING:
       case BACKSPINNING:
       case INTAKING:
-      // case OUTTAKING:
+      case OUTTAKING:
       
         break;
 

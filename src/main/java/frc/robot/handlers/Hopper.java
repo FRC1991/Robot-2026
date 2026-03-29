@@ -47,6 +47,11 @@ public class Hopper extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case OUTTAKING:
+        hopper.set(-HopperConstants.HOPPER_SPEED);
+
+        break;
+
       default:
 
         break;
@@ -64,6 +69,7 @@ public class Hopper extends SubsystemBase implements StateSubsystem {
         break;
          
       case RUNNING:
+      case OUTTAKING:
 
         break;
 
@@ -89,6 +95,7 @@ public class Hopper extends SubsystemBase implements StateSubsystem {
   public enum HopperStates implements State {
     IDLE,
     BROKEN,
-    RUNNING;
+    RUNNING,
+    OUTTAKING;
   }
 }

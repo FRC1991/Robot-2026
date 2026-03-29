@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -21,7 +23,10 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
   private SparkMax shootMotor1;
+  private SparkClosedLoopController closedLoopOne;
+    
   private SparkMax shootMotor2;
+  private SparkClosedLoopController closedLoopTwo;
 
   private SparkMax indexMotor;
   
@@ -36,7 +41,11 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
 
     SparkMaxConfig shootMotorConfig = new SparkMaxConfig();
 
-    shootMotorConfig.smartCurrentLimit(30).idleMode(IdleMode.kCoast);
+    shootMotorConfig.smartCurrentLimit(30).idleMode(IdleMode.kCoast)
+      .closedLoop.p(0.005).i(0).d(0);
+
+    closedLoopOne = shootMotor1.getClosedLoopController();
+    closedLoopTwo = shootMotor2.getClosedLoopController();
 
     shootMotor1.configure(shootMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     shootMotor2.configure(shootMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -54,10 +63,15 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     return m_Instance;
   }
 
-  public void set(double shootSpeed1, double shootSpeed2, double indexSpeed) {
-    shootMotor1.set(Utils.normalize(shootSpeed1));
-    shootMotor2.set(Utils.normalize(shootSpeed2));
-    indexMotor.set(Utils.normalize(indexSpeed));
+  public void set(double speedSetpoint1, double speedSetpoint2, double indexSpeed) {
+    closedLoopOne.setSetpoint(speedSetpoint1, ControlType.kVelocity);
+    closedLoopTwo.setSetpoint(speedSetpoint2, ControlType.kVelocity);
+
+    if(closedLoopOne.isAtSetpoint() && closedLoopTwo.isAtSetpoint()) {
+      indexMotor.set(Utils.normalize(indexSpeed));
+    }
+    
+    // indexMotor.set(Utils.normalize(indexSpeed));
   }
 
   @Override
