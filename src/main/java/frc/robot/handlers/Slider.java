@@ -43,12 +43,12 @@ public class Slider extends SubsystemBase implements StateSubsystem {
         break;
 
       case HOME:
-        slider.set(SliderConstants.HOME_POSITION);
+        // slider.set(SliderConstants.HOME_POSITION);
 
         break;
       
       case INTAKING:
-        slider.set(SliderConstants.INTAKING_POSITION);
+        // slider.set(SliderConstants.INTAKING_POSITION);
 
         break;
 
@@ -65,8 +65,16 @@ public class Slider extends SubsystemBase implements StateSubsystem {
     switch(currentState) {
       case IDLE:
       case BROKEN:
+
+        break;
+      
       case HOME:
+        slider.set(SliderConstants.HOME_POSITION);
+
+        break;
+      
       case INTAKING:
+        slider.set(SliderConstants.INTAKING_POSITION);
 
         break;
 

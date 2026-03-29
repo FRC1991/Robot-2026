@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -23,8 +25,9 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   private boolean initialized = false, status = false;
   
   private SparkMax motor;
+  private SparkClosedLoopController posController;
 
-  private PIDController posController;
+  // private PIDController posController;
   
   private static S_Slider m_Instance;
   
@@ -34,12 +37,12 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
 
     SparkMaxConfig motorConfig = new SparkMaxConfig();
 
-    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kCoast);
+    motorConfig.smartCurrentLimit(20).idleMode(IdleMode.kCoast)
+      .closedLoop.p(0.04).i(0).d(0);
 
     motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    posController = new PIDController(0.005, 0, 0);
-    posController.setTolerance(5);
+    posController = motor.getClosedLoopController();
 
     motor.getEncoder().setPosition(0);
 
@@ -57,9 +60,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   }
 
   public void set(double setpoint) {
-    if(motor.getEncoder().getPosition() >= SliderConstants.INTAKING_POSITION && motor.getEncoder().getPosition() <= SliderConstants.HOME_POSITION) {
-      motor.set(Utils.normalize(posController.calculate(motor.getEncoder().getPosition(), setpoint)));
-    }
+    posController.setSetpoint(setpoint, ControlType.kPosition);
   }
 
   @Override
