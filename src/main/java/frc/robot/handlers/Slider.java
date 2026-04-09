@@ -5,6 +5,7 @@
 package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.Constants.SliderConstants;
 import frc.robot.subsystems.S_Slider;
 
@@ -52,6 +53,10 @@ public class Slider extends SubsystemBase implements StateSubsystem {
 
         break;
 
+      case SHAKING:
+
+        break;
+
       default:
 
         break;
@@ -74,7 +79,13 @@ public class Slider extends SubsystemBase implements StateSubsystem {
         break;
       
       case INTAKING:
-        slider.set(SliderConstants.INTAKING_POSITION);
+        // slider.set(SliderConstants.INTAKING_POSITION);
+        slider.set(SliderConstants.INTAKING_POSITION * OI.auxController.getLeftY());
+
+        break;
+
+      case SHAKING:  
+        slider.shake();
 
         break;
 
@@ -101,6 +112,7 @@ public class Slider extends SubsystemBase implements StateSubsystem {
     IDLE,
     BROKEN,
     HOME,
-    INTAKING;
+    INTAKING,
+    SHAKING;
   }
 }

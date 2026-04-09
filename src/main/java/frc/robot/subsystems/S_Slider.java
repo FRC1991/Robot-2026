@@ -27,7 +27,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   private SparkMax motor;
   private SparkClosedLoopController posController;
 
-  // private PIDController posController;
+  private double shakeSetpoint;
   
   private static S_Slider m_Instance;
   
@@ -61,6 +61,18 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
 
   public void set(double setpoint) {
     posController.setSetpoint(setpoint, ControlType.kPosition);
+  }
+
+  public void shake() {
+    if(posController.isAtSetpoint()) {
+      if(shakeSetpoint == 0) {
+        shakeSetpoint = -20;
+      } else {
+        shakeSetpoint = 0;
+      }
+    }
+
+    posController.setSetpoint(shakeSetpoint, ControlType.kPosition);
   }
 
   @Override
