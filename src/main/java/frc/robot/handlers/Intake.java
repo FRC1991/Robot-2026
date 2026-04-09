@@ -43,6 +43,10 @@ public class Intake extends SubsystemBase implements StateSubsystem {
         break;
 
       case INTAKING:
+        intake.set(IntakeConstants.INTAKE_SPEED);
+
+        break;
+        
       case OUTTAKING:
 
         break;
@@ -65,7 +69,7 @@ public class Intake extends SubsystemBase implements StateSubsystem {
         break;
 
       case INTAKING:
-        intake.set(IntakeConstants.INTAKE_SPEED);
+        // intake.set(IntakeConstants.INTAKE_SPEED);
 
         break;
 

@@ -141,7 +141,7 @@ public final class Constants {
 
   public static abstract class SliderConstants {
     public static final double HOME_POSITION = 0;
-    public static final double INTAKING_POSITION = -50;
+    public static final double INTAKING_POSITION = -65;
   }
 
   public static abstract class HopperConstants {
