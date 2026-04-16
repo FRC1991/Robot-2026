@@ -75,8 +75,12 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   private S_Swerve() {
     ElasticUtil.putDouble("Gyro Angle", this::getHeading);
     ElasticUtil.putDouble("Distance to Hub", this::getDistToHub);
+    ElasticUtil.putDouble("Angle to Hub", this::getAngleToHub);
 
-    setHeading(225);
+    ElasticUtil.putDouble("Robot X", () -> m_poseEstimator.getEstimatedPosition().getX());
+    ElasticUtil.putDouble("Robot Y", () -> m_poseEstimator.getEstimatedPosition().getY());
+
+    // setHeading(225);
   }
 
   public static S_Swerve getInstance() {
@@ -92,11 +96,13 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
   }
 
   public Translation2d getTargetHub() {
-    if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
-      return FieldConstants.BLUE_HUB_LOC;
-    } else {
-      return FieldConstants.RED_HUB_LOC;
-    }
+    // if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+    //   return FieldConstants.BLUE_HUB_LOC;
+    // } else {
+    //   return FieldConstants.RED_HUB_LOC;
+    // }
+
+    return FieldConstants.BLUE_HUB_LOC; // For testing
   }
 
   public double getDistToHub() {
@@ -231,12 +237,22 @@ public class S_Swerve extends SubsystemBase implements CheckableSubsystem {
         m_backRight.getPosition()
       });
 
-    LimelightHelpers.SetRobotOrientation(Constants.LIMELIGHT_NAME, m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
-      0, 0, 0, 0, 0);
-    LimelightHelpers.PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LIMELIGHT_NAME);
+    if(LimelightHelpers.getTV(Constants.LIMELIGHT_NAME)) {
+      LimelightHelpers.SetRobotOrientation(Constants.LIMELIGHT_NAME, m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+        0, 0, 0, 0, 0);
+      // LimelightHelpers.PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LIMELIGHT_NAME);
+      LimelightHelpers.PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.LIMELIGHT_NAME);
 
-    m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
-    m_poseEstimator.addVisionMeasurement(poseEstimate.pose, poseEstimate.timestampSeconds);
+      if(poseEstimate != null) {
+        m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5, .5, 9999999));
+        m_poseEstimator.addVisionMeasurement(poseEstimate.pose, poseEstimate.timestampSeconds);
+      }
+    }
+  }
+
+  @Override
+  public void periodic() {
+    // updatePoseEstimator();
   }
 
   @Override

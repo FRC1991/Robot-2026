@@ -93,18 +93,25 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
         break;
 
       case AIMING:
-        if(LimelightHelpers.getTV(Constants.LIMELIGHT_NAME)) {
-          double rotOffset = LimelightHelpers.getTX(Constants.LIMELIGHT_NAME);
+        // if(LimelightHelpers.getTV(Constants.LIMELIGHT_NAME)) {
+        //   double rotOffset = LimelightHelpers.getTX(Constants.LIMELIGHT_NAME);
 
-          swerve.drive(
-            MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
-            MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
-            Utils.normalize(rotController.calculate(rotOffset)),
-            true, SwerveConstants.SPEED_SCALE
-          );
-        } else {
-          drive();
-        }
+        //   swerve.drive(
+        //     MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+        //     MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+        //     Utils.normalize(rotController.calculate(rotOffset)),
+        //     true, SwerveConstants.SPEED_SCALE
+        //   );
+        // } else {
+        //   drive();
+        // }
+
+        swerve.drive(
+          MathUtil.applyDeadband(OI.driverController.getLeftY(), SwerveConstants.DRIVING_DEADBAND),
+          MathUtil.applyDeadband(OI.driverController.getLeftX(), SwerveConstants.DRIVING_DEADBAND),
+          Utils.normalize(rotController.calculate(S_Swerve.getInstance().getAngleToHub())),
+          true, SwerveConstants.SPEED_SCALE
+        );
         
         break;
 
@@ -136,6 +143,10 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
     return button
       .onTrue(new InstantCommand(() -> setDesiredState(onTrue), m_Instance))
       .onFalse(new InstantCommand(() -> setDesiredState(onFalse), m_Instance));
+  }
+
+  public SwerveStates getState() {
+    return currentState;
   }
 
   public enum SwerveStates implements State {

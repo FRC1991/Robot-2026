@@ -74,18 +74,21 @@ public class Slider extends SubsystemBase implements StateSubsystem {
         break;
       
       case HOME:
-        slider.set(SliderConstants.HOME_POSITION);
+        slider.set(false);
+        // slider.set(0);
 
         break;
       
       case INTAKING:
-        // slider.set(SliderConstants.INTAKING_POSITION);
-        slider.set(SliderConstants.INTAKING_POSITION * OI.auxController.getLeftY());
+        slider.set(true);
+        // slider.set(0.2);
 
         break;
 
       case SHAKING:  
-        slider.shake();
+        // // slider.shake();
+        // slider.set(-0.2);
+        slider.stop();
 
         break;
 

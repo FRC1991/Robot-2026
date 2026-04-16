@@ -55,7 +55,7 @@ public class RobotContainer {
 
     Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.INTAKING, ManagerStates.DRIVING);
     
-    Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.SHAKING, ManagerStates.DRIVING); // Supposed to be OUTTAKING
 
     Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 
@@ -69,6 +69,7 @@ public class RobotContainer {
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
     ElasticUtil.putString("Manager State", () -> Manager.getInstance().getState().toString());
+    ElasticUtil.putString("Swerve State", () -> Swerve.getInstance().getState().toString());
     ElasticUtil.putString("Shooter State", () -> Shooter.getInstance().getState().toString());
     ElasticUtil.putString("Hopper State", () -> Hopper.getInstance().getState().toString());
     ElasticUtil.putString("Intake State", () -> Intake.getInstance().getState().toString());
@@ -83,6 +84,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     if(useShootAuto) {
       return Commands.sequence(
+        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)),
         new WaitCommand(2.0),
         new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHOOTING)),
         new WaitCommand(15.5),

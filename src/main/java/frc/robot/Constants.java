@@ -25,7 +25,7 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final String LIMELIGHT_NAME = "limelight";
+  public static final String LIMELIGHT_NAME = "";
 
   public static final double KRAKEN_MAX_SPEED = 0;
   public static final double NEO_MAX_SPEED = 5600;
@@ -81,7 +81,8 @@ public final class Constants {
 
     public static final int INTAKE_ID = 15;
 
-    public static final int SLIDER_ID = 16;
+    public static final int SLIDER_ONE_ID = 16;
+    public static final int SLIDER_TWO_ID = 17;
 
     // Encoder channels for each swerve module
     public static final int FRONT_LEFT_ENCODER_CHANNEL = 0;
@@ -143,6 +144,12 @@ public final class Constants {
   public static abstract class SliderConstants {
     public static final double HOME_POSITION = 0;
     public static final double INTAKING_POSITION = -65;
+
+    public static final double HOME_ONE_POS = 0;
+    public static final double HOME_TWO_POS = 0;
+
+    public static final double INTAKING_ONE_POS = -25;
+    public static final double INTAKING_TWO_POS = -25;
   }
 
   public static abstract class HopperConstants {

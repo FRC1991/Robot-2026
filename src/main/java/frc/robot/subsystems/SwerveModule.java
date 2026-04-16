@@ -111,7 +111,7 @@ public class SwerveModule implements CheckableSubsystem {
     }
 
     public SwerveModulePosition getPosition() {
-        driveMotor.getPosition().refresh();
+        // driveMotor.getPosition().refresh();
 
         return new SwerveModulePosition(driveMotor.getPosition().getValueAsDouble(),
             new Rotation2d(getEncoderRadians() - m_chassisAngularOffset));

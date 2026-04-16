@@ -10,9 +10,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.S_Shooter;
 import frc.robot.subsystems.S_Swerve;
+import frc.utils.LimelightHelpers;
+import frc.utils.LimelightHelpers.RawFiducial;
 import frc.utils.Utils.ElasticUtil;
 
 public class Shooter extends SubsystemBase implements StateSubsystem {
@@ -26,7 +29,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
   private double indexSpeed = 0;
 
-  private double shootSpeed1 = 2700, shootSpeed2 = 2700;
+  private double shootSpeed1 = 2000, shootSpeed2 = 2000;
   
   /** Creates a new Shooter. */
   private Shooter() {
@@ -34,6 +37,12 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     ElasticUtil.putDouble("Shoot Two", () -> shootSpeed2, (double speed) -> shootSpeed2 = speed);
 
     ElasticUtil.putDouble("Index Speed", () -> indexSpeed);
+
+    ElasticUtil.putDouble("Distance", this::getAverageTagDist);
+    ElasticUtil.putDouble("TX", () -> LimelightHelpers.getTX(Constants.LIMELIGHT_NAME));
+    ElasticUtil.putDouble("TY", () -> LimelightHelpers.getTY(Constants.LIMELIGHT_NAME));
+
+    ElasticUtil.putDouble("Tag Count", () -> LimelightHelpers.getTargetCount(Constants.LIMELIGHT_NAME));
 
     // TODO: FIND VALUES AND ADD WITH .put()
     shootMap1 = new InterpolatingDoubleTreeMap();
@@ -62,8 +71,8 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     switch(desiredState) {
       case IDLE:
       case BROKEN:
-        // CommandScheduler.getInstance().cancelAll();
-        // indexSpeed = 0;
+        CommandScheduler.getInstance().cancelAll();
+        indexSpeed = 0;
         shooter.stop();
 
         break;
@@ -71,12 +80,12 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
       case SHOOTING:
       case PASSING:
       case BACKSPINNING:
-        // CommandScheduler.getInstance().schedule(
-        //   new WaitCommand(0.5)
-        //     .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
-        //     .andThen(new WaitCommand(0.25))
-        //     .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
-        // );
+        CommandScheduler.getInstance().schedule(
+          new WaitCommand(0.5)
+            .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
+            .andThen(new WaitCommand(0.25))
+            .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
+        );
 
         break;
 
@@ -105,7 +114,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
         // }
 
-        shooter.set(shootSpeed1, -shootSpeed2, ShooterConstants.INDEXER_SPEED);
+        shooter.set(shootSpeed1, -shootSpeed2, indexSpeed);
 
         break;
 
@@ -126,6 +135,22 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     if(!shooter.checkSubsystem()) {
       setDesiredState(ShooterStates.BROKEN);
     }
+  }
+
+  private double getAverageTagDist() {
+    RawFiducial[] aprilTags = LimelightHelpers.getRawFiducials(Constants.LIMELIGHT_NAME);
+
+    double sum = 0;
+
+    for(RawFiducial tag : aprilTags) {
+      sum += tag.distToRobot;
+    }
+
+    if(aprilTags.length == 0) {
+      return -15;
+    }
+
+    return sum / aprilTags.length;
   }
 
   @Override
