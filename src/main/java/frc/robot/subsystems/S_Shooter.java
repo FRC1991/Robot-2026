@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -42,7 +43,7 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     SparkMaxConfig shootMotorConfig = new SparkMaxConfig();
 
     shootMotorConfig.smartCurrentLimit(30).idleMode(IdleMode.kCoast)
-      .closedLoop.p(0.0003).i(0).d(0)
+      .closedLoop.p(0.0003).i(0).d(0).allowedClosedLoopError(25, ClosedLoopSlot.kSlot0)
       .feedForward.kS(0.14).kV(0.002);
     
     closedLoopOne = shootMotor1.getClosedLoopController();
@@ -68,11 +69,11 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     closedLoopOne.setSetpoint(speedSetpoint1, ControlType.kVelocity);
     closedLoopTwo.setSetpoint(speedSetpoint2, ControlType.kVelocity);
 
-    // if(closedLoopOne.isAtSetpoint() && closedLoopTwo.isAtSetpoint()) {
-    //   indexMotor.set(Utils.normalize(indexSpeed));
-    // }
+    if(closedLoopOne.isAtSetpoint() && closedLoopTwo.isAtSetpoint()) {
+      indexMotor.set(Utils.normalize(indexSpeed));
+    }
     
-    indexMotor.set(Utils.normalize(indexSpeed));
+    // indexMotor.set(Utils.normalize(indexSpeed));
   }
 
   @Override

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -38,7 +39,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
     SparkMaxConfig motorConfig = new SparkMaxConfig();
 
     motorConfig.smartCurrentLimit(30).idleMode(IdleMode.kCoast).inverted(true)
-      .closedLoop.p(0.5).i(0).d(0);
+      .closedLoop.p(0.65).i(0).d(0).allowedClosedLoopError(1.5, ClosedLoopSlot.kSlot0);
       // .feedForward.kS(0.5);
 
     motor1.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -70,9 +71,6 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   public void set(boolean intaking) {
     posController1.setSetpoint(intaking ? SliderConstants.INTAKING_ONE_POS : 0, ControlType.kPosition);
     posController2.setSetpoint(intaking ? SliderConstants.INTAKING_TWO_POS : 0, ControlType.kPosition);
-
-    // motor1.set(Utils.normalize(setpoint));
-    // motor2.set(Utils.normalize(setpoint * 1.25));
   }
 
   public void set(double speed) {
@@ -82,14 +80,15 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
 
   public void shake() {
     if(posController1.isAtSetpoint()) {
-      if(shakeSetpoint == 0) {
-        shakeSetpoint = -20;
+      if(shakeSetpoint == -5) {
+        shakeSetpoint = -12;
       } else {
-        shakeSetpoint = 0;
+        shakeSetpoint = -5;
       }
     }
 
     posController1.setSetpoint(shakeSetpoint, ControlType.kPosition);
+    posController2.setSetpoint(shakeSetpoint, ControlType.kPosition);
   }
 
   @Override

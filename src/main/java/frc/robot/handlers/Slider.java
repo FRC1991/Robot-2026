@@ -86,9 +86,9 @@ public class Slider extends SubsystemBase implements StateSubsystem {
         break;
 
       case SHAKING:  
-        // // slider.shake();
+        slider.shake();
         // slider.set(-0.2);
-        slider.stop();
+        // slider.stop();
 
         break;
 
