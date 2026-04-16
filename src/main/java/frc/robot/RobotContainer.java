@@ -57,12 +57,20 @@ public class RobotContainer {
     
     Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.SHAKING, ManagerStates.DRIVING); // Supposed to be OUTTAKING
 
+    Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
+
     Swerve.getInstance().bindState(OI.driverController.a(), SwerveStates.AIMING, SwerveStates.DRIVING);
 
     Swerve.getInstance().bindState(OI.driverController.x(), SwerveStates.LOCKED, SwerveStates.DRIVING);
 
     OI.driverController.leftBumper()
       .onTrue(new InstantCommand(() -> S_Swerve.getInstance().setHeading(0), Swerve.getInstance()));
+
+    OI.driverController.y()
+      .onTrue(new InstantCommand(() -> Shooter.getInstance().incSpeed(-100)));
+
+    OI.driverController.b()
+      .onTrue(new InstantCommand(() -> Shooter.getInstance().incSpeed(100)));
   }
 
   private void configureElastic() {

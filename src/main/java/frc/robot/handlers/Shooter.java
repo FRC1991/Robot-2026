@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
   private double indexSpeed = 0;
 
-  private double shootSpeed1 = 2000, shootSpeed2 = 2000;
+  private double shootSpeed1 = 1750, shootSpeed2 = 1750;
   
   /** Creates a new Shooter. */
   private Shooter() {
@@ -151,6 +151,11 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
     }
 
     return sum / aprilTags.length;
+  }
+
+  public void incSpeed(double speed) {
+    shootSpeed1 += speed;
+    shootSpeed2 += speed;
   }
 
   @Override

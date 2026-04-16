@@ -148,8 +148,8 @@ public final class Constants {
     public static final double HOME_ONE_POS = 0;
     public static final double HOME_TWO_POS = 0;
 
-    public static final double INTAKING_ONE_POS = -25;
-    public static final double INTAKING_TWO_POS = -25;
+    public static final double INTAKING_ONE_POS = -24;
+    public static final double INTAKING_TWO_POS = -24;
   }
 
   public static abstract class HopperConstants {
