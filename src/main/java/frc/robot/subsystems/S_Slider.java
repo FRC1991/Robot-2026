@@ -39,7 +39,7 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
     SparkMaxConfig motorConfig = new SparkMaxConfig();
 
     motorConfig.smartCurrentLimit(30).idleMode(IdleMode.kCoast).inverted(true)
-      .closedLoop.p(0.65).i(0).d(0).allowedClosedLoopError(1.5, ClosedLoopSlot.kSlot0);
+      .closedLoop.p(0.75).i(0).d(0).allowedClosedLoopError(1, ClosedLoopSlot.kSlot0);
       // .feedForward.kS(0.5);
 
     motor1.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -79,11 +79,11 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   }
 
   public void shake() {
-    if(posController1.isAtSetpoint()) {
-      if(shakeSetpoint == -5) {
-        shakeSetpoint = -12;
+    if(Math.abs(shakeSetpoint - motor1.getEncoder().getPosition()) < 1.5 && Math.abs(shakeSetpoint - motor2.getEncoder().getPosition()) < 1.5) {
+      if(shakeSetpoint == -4) {
+        shakeSetpoint = -20;
       } else {
-        shakeSetpoint = -5;
+        shakeSetpoint = -4;
       }
     }
 
@@ -105,6 +105,8 @@ public class S_Slider extends SubsystemBase implements CheckableSubsystem {
   @Override
   public boolean checkSubsystem() {
     status = getInitialized();
+
+    status &= Math.abs(motor1.getEncoder().getPosition() - motor2.getEncoder().getPosition()) < 2.5;
 
     return status;
   }

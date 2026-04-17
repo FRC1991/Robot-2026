@@ -120,7 +120,8 @@ public final class Constants {
 
     // Offsets for each swerve module
     public static final double FRONT_LEFT_CHASSIS_OFFSET = 0.9270997038300972; // GOOD!
-    public static final double FRONT_RIGHT_CHASSIS_OFFSET = 2.6354094568666446; // GOOD!
+    // public static final double FRONT_RIGHT_CHASSIS_OFFSET = 2.6354094568666446; // GOOD!
+    public static final double FRONT_RIGHT_CHASSIS_OFFSET = 2.604847385044587;
 
     public static final double BACK_LEFT_CHASSIS_OFFSET = -2.656949091930007; // GOOD!
     public static final double BACK_RIGHT_CHASSIS_OFFSET = -1.8354411901614043; // GOOD!
@@ -148,12 +149,12 @@ public final class Constants {
     public static final double HOME_ONE_POS = 0;
     public static final double HOME_TWO_POS = 0;
 
-    public static final double INTAKING_ONE_POS = -25;
-    public static final double INTAKING_TWO_POS = -25;
+    public static final double INTAKING_ONE_POS = -24;
+    public static final double INTAKING_TWO_POS = -24;
   }
 
   public static abstract class HopperConstants {
-    public static final double HOPPER_SPEED = 0.5;
+    public static final double HOPPER_SPEED = 1.0;
   }
 
   public static abstract class IntakeConstants {

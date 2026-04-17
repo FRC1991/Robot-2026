@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
   private double indexSpeed = 0;
 
-  private double shootSpeed1 = 1650, shootSpeed2 = 1650;
+  private double shootSpeed1 = 1625, shootSpeed2 = 1625;
   
   /** Creates a new Shooter. */
   private Shooter() {

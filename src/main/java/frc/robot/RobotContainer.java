@@ -6,12 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.Hopper;
 import frc.robot.handlers.Intake;
 import frc.robot.handlers.Manager;
@@ -30,10 +34,11 @@ import frc.robot.handlers.Slider;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private boolean useShootAuto = true;
+  private SendableChooser<Command> autoChooser;
   
   public RobotContainer() {
     configureBindings();
+    configureAuto();
     configureElastic();
   }
 
@@ -47,15 +52,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    Manager.getInstance().bindState(OI.auxController.rightBumper(), ManagerStates.SHOOTING, ManagerStates.DRIVING);
+    Manager.getInstance().bindState(OI.auxController.rightBumper(), ManagerStates.SHAKING, ManagerStates.DRIVING);
 
     Manager.getInstance().bindState(OI.auxController.leftBumper(), ManagerStates.PASSING, ManagerStates.DRIVING);
 
     Manager.getInstance().bindState(OI.auxController.y(), ManagerStates.BACKSPINNING, ManagerStates.DRIVING);
 
     Manager.getInstance().bindState(OI.auxController.x(), ManagerStates.INTAKING, ManagerStates.DRIVING);
-    
-    Manager.getInstance().bindState(OI.auxController.b(), ManagerStates.SHAKING, ManagerStates.DRIVING); // Supposed to be OUTTAKING
 
     Manager.getInstance().bindState(OI.auxController.a(), ManagerStates.OUTTAKING, ManagerStates.DRIVING);
 
@@ -67,10 +70,40 @@ public class RobotContainer {
       .onTrue(new InstantCommand(() -> S_Swerve.getInstance().setHeading(0), Swerve.getInstance()));
 
     OI.driverController.y()
-      .onTrue(new InstantCommand(() -> Shooter.getInstance().incSpeed(-100)));
+      .onTrue(new InstantCommand(() -> Shooter.getInstance().incSpeed(-50)));
 
     OI.driverController.b()
-      .onTrue(new InstantCommand(() -> Shooter.getInstance().incSpeed(100)));
+      .onTrue(new InstantCommand(() -> Shooter.getInstance().incSpeed(50)));
+  }
+
+  private void configureAuto() {
+    autoChooser = new SendableChooser<Command>();
+
+    Command trenchAuto = Commands.sequence(
+      new WaitCommand(1.0),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)),
+      new WaitCommand(2.0),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING)),
+      new WaitCommand(15.5),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING))
+    );
+
+    Command centerAuto = Commands.sequence(
+      new WaitCommand(1.0),
+      new InstantCommand(() -> S_Swerve.getInstance().setHeading(0)),
+      new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0.5, 0, 0)),
+      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
+      new WaitCommand(3.0),
+      Commands.parallel(
+        new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
+        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
+      ),
+      new WaitCommand(13.0),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING))
+    );
+
+    autoChooser.addOption("Trench", trenchAuto);
+    autoChooser.addOption("Center", centerAuto);
   }
 
   private void configureElastic() {
@@ -82,6 +115,8 @@ public class RobotContainer {
     ElasticUtil.putString("Hopper State", () -> Hopper.getInstance().getState().toString());
     ElasticUtil.putString("Intake State", () -> Intake.getInstance().getState().toString());
     ElasticUtil.putString("Slider State", () -> Slider.getInstance().getState().toString());
+
+    SmartDashboard.putData("Auto", autoChooser);
   }
 
   /**
@@ -90,16 +125,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if(useShootAuto) {
-      return Commands.sequence(
-        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)),
-        new WaitCommand(2.0),
-        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHOOTING)),
-        new WaitCommand(15.5),
-        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING))
-      );
-    }
-
-    return Commands.print("No auto configured");
+    return autoChooser.getSelected();
   }
 }
