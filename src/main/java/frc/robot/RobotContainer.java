@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.SwerveConstants;
@@ -83,9 +84,7 @@ public class RobotContainer {
       new WaitCommand(1.0),
       new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)),
       new WaitCommand(2.0),
-      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING)),
-      new WaitCommand(15.5),
-      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING))
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
     );
 
     Command centerAuto = Commands.sequence(
@@ -93,17 +92,40 @@ public class RobotContainer {
       new InstantCommand(() -> S_Swerve.getInstance().setHeading(0)),
       new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0.5, 0, 0)),
       new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
-      new WaitCommand(3.0),
+      new WaitCommand(2.25),
       Commands.parallel(
         new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
         new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
-      ),
-      new WaitCommand(13.0),
-      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING))
+      )
+    );
+
+    Command depotAuto = Commands.sequence(
+      centerAuto, // Approximately 3.25 seconds
+      new WaitCommand(5.0),
+      new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0, -0.5, 0)),
+      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
+      new WaitCommand(1.75),
+      new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0.5, 0, 0)),
+      new WaitCommand(0.25),
+      new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0.05, 0, 0)),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.INTAKING)),
+      new WaitCommand(2.0),
+      new InstantCommand(() -> System.out.println("TEST")),
+      new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(-0.5, 0, 0)),
+      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
+      new WaitCommand(0.5),
+      new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0, 0, 0.25)),
+      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
+      new WaitUntilCommand(() -> Math.abs(S_Swerve.getInstance().getHeading() - (360 - 30)) < 5), // TO BE MODIFIED (SETPOINT) 30???
+      Commands.parallel(
+        new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
+        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
+      )
     );
 
     autoChooser.addOption("Trench", trenchAuto);
     autoChooser.addOption("Center", centerAuto);
+    autoChooser.addOption("Depot", depotAuto);
   }
 
   private void configureElastic() {

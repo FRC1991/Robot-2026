@@ -35,6 +35,11 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
     rotController.setSetpoint(0);
 
     ElasticUtil.putDouble("Rot Offset", () -> rotOffset);
+    ElasticUtil.putDouble("Rot Delivered (Aiming)", () -> Utils.normalize(rotController.calculate(rotOffset)));
+
+    ElasticUtil.putDouble("Auto X", () -> autoXSpeed);
+    ElasticUtil.putDouble("Auto Y", () -> autoYSpeed);
+    ElasticUtil.putDouble("Auto Rot", () -> autoRotSpeed);
   }
 
   public static Swerve getInstance() {
@@ -102,6 +107,10 @@ public class Swerve extends SubsystemBase implements StateSubsystem {
 
       case AUTODRIVING:
         swerve.drive(autoXSpeed, autoYSpeed, autoRotSpeed, true, SwerveConstants.SPEED_SCALE);
+
+        if(DriverStation.isTeleopEnabled()) {
+          setDesiredState(SwerveStates.DRIVING);
+        }
 
         break;
 
