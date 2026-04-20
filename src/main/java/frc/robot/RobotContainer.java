@@ -93,10 +93,8 @@ public class RobotContainer {
       new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0.5, 0, 0)),
       new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
       new WaitCommand(2.25),
-      Commands.parallel(
-        new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
-        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
-      )
+      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
     );
 
     Command depotAuto = Commands.sequence(
@@ -112,15 +110,11 @@ public class RobotContainer {
       new WaitCommand(2.0),
       new InstantCommand(() -> System.out.println("TEST")),
       new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(-0.5, 0, 0)),
-      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
       new WaitCommand(0.5),
       new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0, 0, 0.25)),
-      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.AUTODRIVING)),
       new WaitUntilCommand(() -> Math.abs(S_Swerve.getInstance().getHeading() - (360 - 30)) < 5), // TO BE MODIFIED (SETPOINT) 30???
-      Commands.parallel(
-        new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
-        new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
-      )
+      new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
     );
 
     autoChooser.addOption("Trench", trenchAuto);
