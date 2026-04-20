@@ -112,14 +112,26 @@ public class RobotContainer {
       new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(-0.5, 0, 0)),
       new WaitCommand(0.5),
       new InstantCommand(() -> Swerve.getInstance().setAutoSpeed(0, 0, 0.25)),
-      new WaitUntilCommand(() -> Math.abs(S_Swerve.getInstance().getHeading() - (360 - 30)) < 5), // TO BE MODIFIED (SETPOINT) 30???
+      // new WaitUntilCommand(() -> Math.abs(S_Swerve.getInstance().getHeading() - (360 - 30)) < 5), // TO BE MODIFIED (SETPOINT) 30???
+      new WaitCommand(2.0), // For testing
       new InstantCommand(() -> Swerve.getInstance().setDesiredState(SwerveStates.IDLE)),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
+    );
+
+    Command testAuto = Commands.sequence(
+      new WaitCommand(1.0),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING)),
+      new WaitCommand(1.0),
+      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)),
+      new InstantCommand(() -> System.out.println("TESTING")),
+      new WaitCommand(1.0),
       new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
     );
 
     autoChooser.addOption("Trench", trenchAuto);
     autoChooser.addOption("Center", centerAuto);
     autoChooser.addOption("Depot", depotAuto);
+    autoChooser.addOption("Test", testAuto);
   }
 
   private void configureElastic() {
