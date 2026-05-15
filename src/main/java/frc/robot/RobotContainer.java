@@ -4,19 +4,21 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.handlers.Hopper;
 import frc.robot.handlers.Intake;
 import frc.robot.handlers.Manager;
@@ -118,14 +120,23 @@ public class RobotContainer {
       new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
     );
 
+    Command managerDriving = Commands.runOnce(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING));
+    ElasticUtil.putBoolean("TEST", () -> !managerDriving.isFinished());
+    boolean commandOver = false;
+
+    Command managerShaking = Commands.runOnce(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING));
+
     Command testAuto = Commands.sequence(
       new WaitCommand(1.0),
       new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING)),
       new WaitCommand(1.0),
-      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)),
+
+      new RunCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.DRIVING)).withTimeout(0.1),
+      managerDriving,
       new InstantCommand(() -> System.out.println("TESTING")),
       new WaitCommand(1.0),
-      new InstantCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
+      new RunCommand(() -> Manager.getInstance().setDesiredState(ManagerStates.SHAKING))
+      // new RunCommand(() -> takeInput(managerShaking, managerDriving, managerShaking))
     );
 
     autoChooser.addOption("Trench", trenchAuto);

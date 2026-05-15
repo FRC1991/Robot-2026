@@ -82,11 +82,11 @@ public class S_Shooter extends SubsystemBase implements CheckableSubsystem {
     closedLoopOne.setSetpoint(speedSetpoint1 + 50, ControlType.kVelocity);
     closedLoopTwo.setSetpoint(speedSetpoint2 - 50, ControlType.kVelocity);
 
-    if(Math.abs(speedSetpoint1 - shootMotor1.getEncoder().getVelocity()) < 25 && Math.abs(speedSetpoint2 - shootMotor2.getEncoder().getVelocity()) < 25) {
-      indexMotor.set(Utils.normalize(indexSpeed));
-    }
+    // if(Math.abs(speedSetpoint1 - shootMotor1.getEncoder().getVelocity()) < 25 && Math.abs(speedSetpoint2 - shootMotor2.getEncoder().getVelocity()) < 25) {
+    //   indexMotor.set(Utils.normalize(indexSpeed));
+    // }
     
-    // indexMotor.set(Utils.normalize(indexSpeed));
+    indexMotor.set(Utils.normalize(indexSpeed));
   }
 
   @Override

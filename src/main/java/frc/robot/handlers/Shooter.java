@@ -82,10 +82,10 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
       case BACKSPINNING:
         CommandScheduler.getInstance().schedule(
           new WaitCommand(0.5)
-            .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED))
-            .andThen(new WaitCommand(0.25))
-            .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
-        );
+            .andThen(new InstantCommand(() -> indexSpeed = ShooterConstants.INDEXER_SPEED)));
+        //     .andThen(new WaitCommand(0.25))
+        //     .andThen(new InstantCommand(() -> indexSpeed = 0)).repeatedly()
+        // );
 
         break;
 
@@ -114,7 +114,7 @@ public class Shooter extends SubsystemBase implements StateSubsystem {
 
         // }
 
-        shooter.set(shootSpeed1, -shootSpeed2, ShooterConstants.INDEXER_SPEED);
+        shooter.set(shootSpeed1, -shootSpeed2, indexSpeed);
 
         break;
 

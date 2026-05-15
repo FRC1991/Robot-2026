@@ -4,8 +4,14 @@
 
 package frc.robot.handlers;
 
+import java.util.function.BooleanSupplier;
+
 import org.ejml.interfaces.decomposition.SingularValueDecomposition;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -185,6 +191,13 @@ public class Manager extends SubsystemBase implements CheckableSubsystem, StateS
     }
   }
 
+  public void takeInput(BooleanSupplier supplier, Command firstSection, Command secondSection){
+    Timer timer = new Timer();
+    if (timer.hasElapsed(2)){
+      CommandScheduler.getInstance().cancel(firstSection);
+      CommandScheduler.getInstance().schedule(secondSection);
+    }
+  }
   @Override
   public void periodic() {
     update();
